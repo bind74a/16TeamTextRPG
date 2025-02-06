@@ -4,15 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _16TeamTextRPG
-{
-    internal class Stage
-    {
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _16TeamTextRPG
     {
@@ -56,5 +47,3 @@ namespace _16TeamTextRPG
         }
     }
 
-}
-}
