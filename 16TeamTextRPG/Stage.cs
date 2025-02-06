@@ -30,8 +30,13 @@ namespace _16TeamTextRPG
 
         public void Battlefield()
         {
+
             //소환됀 객체들을 필드위에 뛰운다 그리고 필드 몬스터 리스트화?
-            
+            Console.WriteLine("Battle!!");
+            Console.WriteLine();
+            SummonMonster();
+            Console.WriteLine();
+            Console.WriteLine("[내정보]");
         }
         //2.공격하기 선택창을 추가하여 공격시 전투 계산 메소드 작동
         //3.전투가 끝날시 남아있는 현재체력과 현재 스탯표시
