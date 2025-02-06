@@ -57,4 +57,18 @@ namespace _16TeamTextRPG
             Console.WriteLine($"HP {player.health} -> {player.health}"); // HP 100 -> 94
         }
     }
+
+    // Monster DataBase
+    public class MonsterData
+    {
+        List<Monster> monsters;
+
+        public MonsterData()
+        {
+            monsters = new List<Monster>();
+
+            //// 몬스터 리스트 추가
+            //monster.add(new Monster());
+        }
+    }
 }
