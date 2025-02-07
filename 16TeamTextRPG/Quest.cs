@@ -140,6 +140,7 @@ namespace _16TeamTextRPG
             if (quest.goal <= quest.progress)
             {
                 quest.clear = true; // 퀘스트 완료
+                quest.accept = false; // 퀘스트 수락 해제
 
                 // 보상 지급
                 //player.Inven.Add(quest.item);
