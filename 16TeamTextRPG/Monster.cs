@@ -17,7 +17,7 @@ namespace _16TeamTextRPG
         int exp;
         int attack;
         int defense;
-
+        
         public Monster()
         {
             name = "";
@@ -55,6 +55,23 @@ namespace _16TeamTextRPG
 
             Console.WriteLine($"Lv.{player.level} {player.name}"); // Lv.1 Chad
             Console.WriteLine($"HP {player.health} -> {player.health}"); // HP 100 -> 94
+        }
+
+        public static int CheckInput(int min, int max)
+        {
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+
+            while (true)
+            {
+                Console.Write(">> ");
+                if (int.TryParse(Console.ReadLine(), out int input))
+                {
+                    if (input >= min && input <= max)
+                        return input;
+                }
+
+                Console.WriteLine("잘못된 입력입니다.");
+            }
         }
     }
 
