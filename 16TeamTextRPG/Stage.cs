@@ -176,8 +176,21 @@ namespace _16TeamTextRPG
                 }
             } while (attackcancel == false);
         }
+        //3.전투가 끝날시 남아있는 현재체력과 현재 스탯표시(결과창)
+        public void BattleVictory(List<Monster> attackMonster)
+        {
+            for (int i = 0; i <= attackMonster.Count; i++)
+            {
+                if (!attackMonster[i].dead)
+                {
+                    //결과창 메서드
+                }
+            }
+        }
+        public void BattleLose(Player)
+        {
 
-            //3.전투가 끝날시 남아있는 현재체력과 현재 스탯표시
+        }
     }
 }
 
