@@ -1,40 +1,34 @@
-﻿using _16TeamTextRPG;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Reflection.PortableExecutable;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace _16TeamTextRPG
 {
-    public class Monster
+    internal class Monster
     {
-        public string name;
-        public bool dead;
-        public int level;
-        public int maxHp;
-        public int hp;
-        public int gold;
-        public int exp;
-        public int atk;
-        public int def;
-
-        public Monster(string _name, int _level, int _hp, int _atk)
+        string name;
+        bool dead;
+        int level;
+        int maxHealth;
+        int health;
+        int gold;
+        int exp;
+        int attack;
+        int defense;
+        
+        public Monster()
         {
-            name = _name;
+            name = "";
             dead = false;
-            level = _level;
-            maxHp = _hp;
-            hp = maxHp;
+            level = 0;
+            maxHealth = 0;
+            health = 0;
             gold = 0;
             exp = 0;
-            atk = _atk;
-            def = 0;
+            attack = 0;
+            defense = 0;
         }
 
         public void Attack(Player player)
@@ -42,17 +36,17 @@ namespace _16TeamTextRPG
             Random rand = new Random();
 
             // 공격력의 10% 오차 (오차가 소수점이라면 올림처리);
-            int min = atk - (int)Math.Ceiling(atk * 0.1f);
-            int max = atk + (int)Math.Ceiling(atk * 0.1f);
+            int min = attack - (int)Math.Ceiling(attack * 0.1f);
+            int max = attack + (int)Math.Ceiling(attack * 0.1f);
 
             // 최종 공격력
             int final = rand.Next(min, max + 1);
 
-            player.hp -= final;
-            if (player.hp <= 0)
+            player.health -= final;
+            if (player.health <= 0)
             {
-                //player.dead = true;
-                player.hp = 0;
+                player.dead = true;
+                player.health = 0;
             }
 
             // Consol UI
@@ -60,24 +54,38 @@ namespace _16TeamTextRPG
             Console.WriteLine($"{player.name}을(를) 맞췄습니다. [데미지: {final}]\n"); // Chad 을(를) 맞췄습니다. [데미지: 6]
 
             Console.WriteLine($"Lv.{player.level} {player.name}"); // Lv.1 Chad
-            Console.WriteLine($"HP {player.hp} -> {player.hp}"); // HP 100 -> 94
+            Console.WriteLine($"HP {player.health} -> {player.health}"); // HP 100 -> 94
+        }
+
+        public static int CheckInput(int min, int max)
+        {
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+
+            while (true)
+            {
+                Console.Write(">> ");
+                if (int.TryParse(Console.ReadLine(), out int input))
+                {
+                    if (input >= min && input <= max)
+                        return input;
+                }
+
+                Console.WriteLine("잘못된 입력입니다.");
+            }
         }
     }
 
     // Monster DataBase
-    public class MonsterList
+    public class MonsterData
     {
-        public List<Monster> monsterList;
-        
-        public MonsterList()
+        List<Monster> monsters;
+
+        public MonsterData()
         {
-            monsterList = new List<Monster>();
-            
-            monsterList.Add(new Monster("미니언", 2, 15, 5));
-            monsterList.Add(new Monster("공허충", 3, 10, 9));
-            monsterList.Add(new Monster("대포미니언", 5, 25, 8));
-            monsterList.Add(new Monster("마법사미니언", 4, 8, 11));
+            monsters = new List<Monster>();
+
+            //// 몬스터 리스트 추가
+            //monster.add(new Monster());
         }
     }
 }
-

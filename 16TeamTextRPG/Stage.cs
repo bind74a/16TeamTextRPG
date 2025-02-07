@@ -15,7 +15,7 @@ namespace _16TeamTextRPG
     bool dead;
     int level;
     int maxHealth;
-    int hp;
+    int health;
     int gold;
     int exp;
     int attack;
@@ -31,22 +31,27 @@ namespace _16TeamTextRPG
     HP 25
     ATK 8
     */
-    public class Stage
+    internal class Stage
     {
         //구현할것 : 전투신 전체의 로직
+
         public Player player;
 
-        public List<Monster> monsters;
-        Random Random = new Random();
+        static List<Monster> monsters = new List<Monster>();
 
-        public Stage()
-        {
-            player = GameManager.Instance.player;
-            monsters = GameManager.Instance.monsterList.monsterList;
-        }
+        public Monster minion = new Monster { name = "미니언", level = 2, health = 15, attack = 5 };
+        public Monster hollowWorm = new Monster { name = "공허충", level = 3, health = 10, attack = 9 };
+        public Monster cannonMinion = new Monster { name = "대포미니언", level = 5, health = 25, attack = 8 };
+        public Monster casterMinio = new Monster { name = "마법사미니언", level = 4, health = 8, attack = 11 };
 
+        static Random Random = new Random();
         public List<Monster> SummonMonster()//몬스터 소환
         {
+            monsters.Add(minion);
+            monsters.Add(hollowWorm);
+            monsters.Add(cannonMinion);
+            monsters.Add(casterMinio);
+
             //1.몬스터 클래스에서 몬스터 정보받고 그정보로 몬스터 랜덤성으로 1~4마리 소환
             List<Monster> list = new List<Monster>();//랜덤 설정된 몬스터를 받는곳
 
@@ -55,15 +60,15 @@ namespace _16TeamTextRPG
             for (int i = 0; i < monsterObj; i++)
             {
                 int randomMon = Random.Next(monsters.Count);//리스트 안 객체를 랜덤하게 정하는것
+                Console.WriteLine($"몬스터 소환 {monsters[randomMon]}");
                 list.Add(monsters[randomMon]);
             }
             return list; //랜덤설정된 몬스터를 list변수에 보낸다
         }
 
         public void BattleField()
-        {
-            //소환됀 객체들을 필드위에 뛰운다 그리고 필드 몬스터 리스트화?
-           Console.Clear();
+        { 
+           //소환됀 객체들을 필드위에 뛰운다 그리고 필드 몬스터 리스트화?
            Console.WriteLine("Battle!!");
            Console.WriteLine();
            List<Monster> list = SummonMonster();// 이리스트를 다른곳에서 써야함
@@ -78,7 +83,7 @@ namespace _16TeamTextRPG
                 }
                else
                {
-                    Console.WriteLine($"Lv.{monster.level} {monster.name} HP {monster.hp} ");
+                    Console.WriteLine($"Lv.{monster.level} {monster.name} HP {monster.health} ");
                }
            }
 
@@ -112,9 +117,9 @@ namespace _16TeamTextRPG
             bool attackcancel = false;
             do
             {
+                
                 int choiceMonster = 1;
-                List<Monster> summon = attackMonster;
-                foreach (Monster monster in summon) //소환된 몬스터 개체수 만큼 선택지를 늘리기
+                foreach (Monster monster in SummonMonster()) //소환된 몬스터 개체수 만큼 선택지를 늘리기
                 {
                     if (monster.dead == true)
                     {
@@ -124,7 +129,7 @@ namespace _16TeamTextRPG
                     }
                     else
                     {
-                        Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} HP {monster.hp} ");
+                        Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} HP {monster.health} ");
                     }
                     choiceMonster++;
                 }
@@ -138,9 +143,9 @@ namespace _16TeamTextRPG
                 while (true)
                 {
                     bool allMonstersDead = attackMonster.All(monster => monster.dead);//모든 몬스터가 죽으면 true 아니면 false 을 반환
-                    if (allMonstersDead || player.hp == 0) //승리 조건 검사
+                    if (allMonstersDead || player.health = 0) //승리 조건 검사
                     {
-                        BattleResult(allMonstersDead, summon.Count);
+                        BattleResult(allMonstersDead);
                         break;
                     }
 
@@ -156,7 +161,7 @@ namespace _16TeamTextRPG
                         else
                         {
                             Console.Clear();
-                            player.Attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
+                            player.attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
 
                             //다음 선택지 만들기
                             Console.WriteLine("0. 다음");
@@ -164,6 +169,7 @@ namespace _16TeamTextRPG
                             if (next == 0)
                             {
                                 Console.Clear();
+
                                 selectedMonster.Attack(player);//몬스터의 공격 메서드 (몬스터의 공격턴)
                             }
 
@@ -182,9 +188,10 @@ namespace _16TeamTextRPG
             } while (attackcancel == false);
         }
         //3.전투가 끝날시 남아있는 현재체력과 현재 스탯표시(결과창)
-        public void BattleResult(bool Result, int summonCount)
+        public void BattleResult(bool Result)
         {
             bool allMonstersDead = Result;
+            
 
             if (allMonstersDead)//모든 몬스터가 죽을시
             {
@@ -193,28 +200,29 @@ namespace _16TeamTextRPG
                 Console.WriteLine("Victory");
                 Console.WriteLine();
 
-                Console.WriteLine($"던전에서 몬스터 {summonCount}마리를 잡았습니다.");
+                Console.WriteLine($"던전에서 몬스터 {MonsterResult.Count}마리를 잡았습니다.");
                 Console.WriteLine();
                 Console.WriteLine($"Lv.{player.level} {player.name}");
-                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+                Console.WriteLine($"HP {player.maxHealth} -> {player.health}");
                 Console.WriteLine();
 
                 Console.WriteLine("0. 다음");
                 int next = int.Parse(Console.ReadLine());
                 if (next == 0)
                 {
+
                     Console.WriteLine("끝");
                 }
             }
 
-            if (player.hp == 0) //플레이어의 현재체력이 0이 될시
+            if (player.health == 0) //플레이어의 현재체력이 0이 될시
             {
                 Console.WriteLine("Battle!! - Result");
                 Console.WriteLine();
                 Console.WriteLine("You Lose");
                 Console.WriteLine();
                 Console.WriteLine($"Lv.{player.level} {player.name}");
-                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+                Console.WriteLine($"HP {player.maxHealth} -> {player.health}");
                 Console.WriteLine();
 
                 Console.WriteLine("0. 다음");

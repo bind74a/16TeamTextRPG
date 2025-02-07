@@ -1,62 +1,23 @@
-﻿using _16TeamTexTRPG;
-
-namespace _16TeamTextRPG
+﻿namespace _16TeamTextRPG
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            GameManager gameManager = GameManager.Instance;
-            gameManager.Init();
-
-            gameManager.MainScreen();
-        }
-    }
-
     //게임 매니저 클래스
-    public class GameManager
+    class GameManager
     {
-        private static GameManager instance;
+        Player player;
 
-        public static GameManager Instance
+        public GameManager()
         {
-            get
-            {
-                if (instance == null)
-                    instance = new GameManager();
-
-                return instance;
-            }
-        }
-
-        public Player player;
-        public Stage stage;
-        public Shop shop;
-        public ItemList itemList;
-        public MonsterList monsterList;
-
-        private GameManager()
-        {
-            
-        }
-
-        public void Init()
-        {
-            //아이템 리스트 생성
-            itemList = new ItemList();
-            monsterList = new MonsterList();
-
             //새로운 플레이어를 생성
             player = new Player(1, "메타몽", "전사", 10, 5, 100, 1500);
-            stage = new Stage();
-            shop = new Shop();
+
+            //아이템 리스트 생성
         }
 
         private string name; //    _ 
         //                         ㅣ->  외부에서 직접 호출할 필요 없어서 Private 사용     
         private Job plyaerJob; //  -
 
-        public enum Job
+        enum Job
         {
             Warrior = 1, // 1을 안쓰면 0부터 시작하기에 1부터 시작하도록 값을 부여
             Mage,
@@ -79,25 +40,32 @@ namespace _16TeamTextRPG
             Console.WriteLine("당신의 이름을 적어주세요.");
             string name = Console.ReadLine();
 
-            player.playJob = SelectJob();
+            playJob = SelcetJob()
 
+            Console.WriteLine();
+            Console.WriteLine("1. 전사");
+            Console.WriteLine("2. 마법사");
+            Console.WriteLine("3. 아처");
+            Console.WriteLine("4. 마법사");
+            string job = Console.ReadLine();    
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Thread.Sleep(500);
             Console.WriteLine();
+            Console.WriteLine("1. 거울로 내 상태 보기");
+            Console.WriteLine("2. 가방 열어 인벤토리 보기");
+            Console.WriteLine("3. 돈 쓰러 상점 가기");
+            Console.WriteLine("4. 던전 들어가기");
+            Console.WriteLine();
+            Thread.Sleep(500);
 
+            //숫자를 입력하면 해당하는 화면으로 이동
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">> ");
+                Console.ReadLine();
 
-                Console.WriteLine("1. 거울로 내 상태 보기");
-                Console.WriteLine("2. 가방 열어 인벤토리 보기");
-                Console.WriteLine("3. 돈 쓰러 상점 가기");
-                Console.WriteLine("4. 던전 들어가기");
-                Console.WriteLine();
-                Thread.Sleep(500);
-            
-                int input = CommonUtil.CheckInput(1, 4);
+                int input = int.Parse(Console.ReadLine());
 
                 switch (input)
                 {
@@ -105,15 +73,17 @@ namespace _16TeamTextRPG
                         StatusScreen();
                         break;
                     case 2:
-                        //InventoryScreen();
+                        InventoryScreen();
                         break;
                     case 3:
-                        shop.ShowMain();
+                        ShopScreen();
                         break;
                     case 4:
-                        stage.BattleField();
+                        DunguenScreen();
                         break;
                 }
+
+                Console.WriteLine("잘못된 입력입니다. 다시 입력해 주세요.");
             }
         }
 
@@ -151,6 +121,7 @@ namespace _16TeamTextRPG
 
             player.StatusDisplay(); //플레이어 스탯시트 표시
 
+
             Thread.Sleep(500);
             Console.WriteLine();
             Console.WriteLine("선택창)");
@@ -159,10 +130,22 @@ namespace _16TeamTextRPG
 
             while (true)
             {
-                int input = CommonUtil.CheckInput(0, 0);
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">> ");
+                Console.ReadLine();
+
+                int input = int.Parse(Console.ReadLine());
 
                 if (input == 0)
-                    break;
+                {
+                    MainScene();
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 입력해 주세요.");
+                    continue;
+                }
+
             }
         }
     }

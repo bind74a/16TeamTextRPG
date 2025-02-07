@@ -1,5 +1,5 @@
 ﻿using _16TeamTextRPG;
-using _16TeamTexTRPG;
+using Class_shop_DS_ver._6._0;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace _16TeamTextRPG
         List<Quest> listQuest;
 
         Player player;
-        
+
         public Guild(Player _player)
         {
             listQuest = new List<Quest>();
@@ -58,7 +58,7 @@ namespace _16TeamTextRPG
                 }
                 Console.WriteLine("0. 나가기\n");
 
-                int input = CommonUtil.CheckInput(0, listQuest.Count + 1);
+                int input = Monster.CheckInput(0, listQuest.Count + 1);
 
                 // 나가기
                 if (input == 0)
@@ -109,7 +109,7 @@ namespace _16TeamTextRPG
 
             while (true)
             {
-                int input = CommonUtil.CheckInput(1, 2);
+                int input = Monster.CheckInput(1, 2);
                 // main으로 돌아가기
                 if (input == 2)
                     break;
@@ -142,8 +142,8 @@ namespace _16TeamTextRPG
                 quest.clear = true; // 퀘스트 완료
 
                 // 보상 지급
-                //player.Inven.Add(quest.item);
-                player.gold += quest.gold;
+                player.Inven.Add(quest.item);
+                player.Gold += quest.gold;
                 
                 Console.WriteLine("보상 지급완료!");
                 Thread.Sleep(500);

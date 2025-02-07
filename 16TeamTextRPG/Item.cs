@@ -42,9 +42,9 @@ namespace _16TeamTextRPG
             IsEquip = IsEquip == false ? true : false;
             int sign = IsEquip == true ? 1 : -1;
 
-            player.atk += Atk;
-            player.def += Def;
-            player.hp += Hp;
+            player.Atk += Atk;
+            player.Def += Def;
+            player.Hp += Hp;
         }
     }
 
@@ -120,7 +120,6 @@ namespace _16TeamTextRPG
     public class ItemList   // 아이템 리스트
     {
         Stat stat = new Stat();
-        public List<Item> all = new List<Item>();   // 전체 아이템 리스트
 
         public ItemList()
         {
@@ -138,5 +137,6 @@ namespace _16TeamTextRPG
             all.Add(new Armor(stat));
         }
 
+        public List<Item> all = new List<Item>();   // 전체 아이템 리스트
     }
 }
