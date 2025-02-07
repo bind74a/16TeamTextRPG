@@ -71,7 +71,7 @@ namespace _16TeamTextRPG
            List<Monster> list = SummonMonster();// 이리스트를 다른곳에서 써야함
            foreach (Monster monster in list)//소환된 몬스터 목록 보여주는곳
            {
-               if (monster.dead == true)
+               if (monster.dead)
                {
                     Console.ForegroundColor = ConsoleColor.DarkGray;//글자 어두운 회색으로 변경
                     Console.WriteLine($"Lv.{monster.level} {monster.name} Dead ");
@@ -96,6 +96,7 @@ namespace _16TeamTextRPG
                     switch (choice)
                     {
                         case 1:
+                            PlayerAttackField();
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
@@ -109,38 +110,73 @@ namespace _16TeamTextRPG
         //2.공격하기 선택창을 추가하여 공격시 전투 계산 메소드 작동
         public void PlayerAttackField()
         {
-            int choiceMonster = 1;
-            foreach (Monster monster in SummonMonster())
+            bool attackcancel = false;
+            List<Monster> attackMonster = SummonMonster();
+            do
             {
-                if (monster.dead == true)
+                
+                int choiceMonster = 1;
+                foreach (Monster monster in SummonMonster()) //소환된 몬스터 개체수 만큼 선택지를 늘리기
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;//글자 어두운 회색으로 변경
-                    Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} Dead ");
-                    Console.ResetColor();
+                    if (monster.dead == true)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;//글자 어두운 회색으로 변경
+                        Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} Dead ");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} HP {monster.health} ");
+                    }
+                    choiceMonster++;
                 }
-                else
+                Console.WriteLine("[내정보]");
+                Player.StatusDisplay();
+                Console.WriteLine();
+                Console.WriteLine($"{choiceMonster}. 취소");
+                Console.WriteLine();
+                Console.Write("공격할 몬스터를 선택해주세요. : ");
+
+                while (true)
                 {
-                    Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} HP {monster.health} ");
+                    string playerInput = Console.ReadLine();
+                    if (int.TryParse(playerInput, out int monIndex) && monIndex > 0 && monIndex <= attackMonster.Count) //입력한숫자가 0이상 선택지
+                    {
+                        Monster selectedMonster = attackMonster[monIndex - 1];// 유저가 선택한 개채 변수에 저장
+
+                        if (selectedMonster.dead)//개체가 죽었을시
+                        {
+                            Console.WriteLine("이미 죽은 몬스터입니다.");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Player.attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
+
+                            //다음 선택지 만들기
+                            Console.WriteLine("0. 다음");
+                            int next = int.Parse(Console.ReadLine());
+                            if (next == 0)
+                            {
+                                Console.Clear();
+                                Monster.Attack();//몬스터의 공격 메서드 (몬스터의 공격턴)
+                            }
+
+                        }
+                    }
+                    else if (monIndex == choiceMonster)
+                    {
+                        attackcancel = true;
+                        break;//취소
+                    }
+                    else
+                    {
+                        Console.WriteLine("잘못된 입력입니다.");
+                    }
                 }
-                choiceMonster++;
-            }
-
-            Console.WriteLine($"{choiceMonster}. 뒤로가기");
-            Console.Write("공격할 몬스터를 선택해주세요. : ");
-
-            while (true)
-            {
-                int playerInput = int.Parse(Console.ReadLine());
-                List<Monster> attackMonster = SummonMonster();
-
-                int test = attackMonster.Count;//리스트 개체들의 숫자값
-
-
-                //소환된 몬스터 개체수 만큼 선택지를 늘리기
-                //플레이어 선택번호 랑 리스트 번호 연동
-                //플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기
-            }
+            } while (attackcancel == false);
         }
+
             //3.전투가 끝날시 남아있는 현재체력과 현재 스탯표시
     }
 }
