@@ -15,9 +15,9 @@ namespace _16TeamTextRPG
         public string Type { get; protected set; }  // 아이템 타입( 무기, 방어구, 악세사리, 소모품)
 
         public int Price { get; }   // 아이템 가격
-        public int Power { get; }   // 아이템 공격력
-        public int Defense { get; }   // 아이템 방어력
-        public int Health { get; }   // 아이템 체력
+        public int Atk { get; }   // 아이템 공격력
+        public int Def { get; }   // 아이템 방어력
+        public int Hp { get; }   // 아이템 체력
 
         public bool CanBuy; // true = 구매 가능한 상태 (기본값 true)
         public bool IsEquip;    // true = 착용한 상태 (기본값 false)
@@ -28,23 +28,23 @@ namespace _16TeamTextRPG
             Option = stat.Option;
             Info = stat.Info;
             Price = stat.Price;
-            Power = stat.Power;
-            Defense = stat.Defense;
-            Health = stat.Health;
+            Atk = stat.Atk;
+            Def = stat.Def;
+            Hp = stat.Hp;
 
             CanBuy = true;
             IsEquip = false;
             stat.Init();
         }
 
-        public void EquipItem(Character player)
+        public void EquipItem(Player player)
         {
             IsEquip = IsEquip == false ? true : false;
             int sign = IsEquip == true ? 1 : -1;
 
-            player.power += Power;
-            player.defense += Defense;
-            player.health += Health;
+            player.Atk += Atk;
+            player.Def += Def;
+            player.Hp += Hp;
         }
     }
 
@@ -56,9 +56,9 @@ namespace _16TeamTextRPG
         public string Type = "";  // 아이템 타입( 무기, 방어구, 악세사리, 소모품)
 
         public int Price = 0;   // 아이템 가격
-        public int Power = 0;   // 아이템 공격력
-        public int Defense = 0; // 아이템 방어력
-        public int Health = 0;   // 아이템 체력
+        public int Atk = 0;   // 아이템 공격력
+        public int Def = 0; // 아이템 방어력
+        public int Hp = 0;   // 아이템 체력
 
         public bool CanBuy = true; // true = 구매 가능한 상태 (기본값 true)
         public bool IsEquip = false;    // true = 착용한 상태 (기본값 false)
@@ -76,9 +76,9 @@ namespace _16TeamTextRPG
             Type = "";  
 
             Price = 0;  
-            Power = 0;  
-            Defense = 0; 
-            Health = 0;   
+            Atk = 0;  
+            Def = 0; 
+            Hp = 0;   
 
             CanBuy = true; 
             IsEquip = false; 
@@ -123,17 +123,17 @@ namespace _16TeamTextRPG
 
         public ItemList()
         {
-            stat.Name = "낡은 검"; stat.Option = "공격력 +2"; stat.Info = "쉽게 볼 수 있는 낡은 검 입니다."; stat.Price = 600; stat.Power = 2;
+            stat.Name = "낡은 검"; stat.Option = "공격력 +2"; stat.Info = "쉽게 볼 수 있는 낡은 검 입니다."; stat.Price = 600; stat.Atk = 2;
             all.Add(new Weapon(stat));
-            stat.Name = "청동 도끼"; stat.Option = "공격력 +5"; stat.Info = "어디선가 사용됐던거 같은 도끼입니다."; stat.Price = 1500; stat.Power = 5;
+            stat.Name = "청동 도끼"; stat.Option = "공격력 +5"; stat.Info = "어디선가 사용됐던거 같은 도끼입니다."; stat.Price = 1500; stat.Atk = 5;
             all.Add(new Weapon(stat));
-            stat.Name = "스파르타의 창"; stat.Option = "공격력 +7"; stat.Info = "스파르타의 전사들이 사용했다는 전설의 창입니다."; stat.Price = 2500; stat.Power = 7;
+            stat.Name = "스파르타의 창"; stat.Option = "공격력 +7"; stat.Info = "스파르타의 전사들이 사용했다는 전설의 창입니다."; stat.Price = 2500; stat.Atk = 7;
             all.Add(new Weapon(stat));
-            stat.Name = "수련자 갑옷"; stat.Option = "방어력 +5"; stat.Info = "수련에 도움을 주는 갑옷입니다."; stat.Price = 1000; stat.Defense = 5;
+            stat.Name = "수련자 갑옷"; stat.Option = "방어력 +5"; stat.Info = "수련에 도움을 주는 갑옷입니다."; stat.Price = 1000; stat.Def = 5;
             all.Add(new Armor(stat));
-            stat.Name = "무쇠갑옷"; stat.Option = "방어력 +9"; stat.Info = "무쇠로 만들어져 튼튼한 갑옷입니다."; stat.Price = 2000; stat.Defense = 9;
+            stat.Name = "무쇠갑옷"; stat.Option = "방어력 +9"; stat.Info = "무쇠로 만들어져 튼튼한 갑옷입니다."; stat.Price = 2000; stat.Def = 9;
             all.Add(new Armor(stat));
-            stat.Name = "스파르타의 갑옷"; stat.Option = "방어력 +15"; stat.Info = "스파르타의 전사들이 사용했다는 전설의 갑옷입니다."; stat.Price = 3500; stat.Defense = 15;
+            stat.Name = "스파르타의 갑옷"; stat.Option = "방어력 +15"; stat.Info = "스파르타의 전사들이 사용했다는 전설의 갑옷입니다."; stat.Price = 3500; stat.Def = 15;
             all.Add(new Armor(stat));
         }
 
