@@ -33,7 +33,10 @@ namespace _16TeamTextRPG
     */
     internal class Stage
     {
-            //구현할것 : 전투신 전체의 로직
+        //구현할것 : 전투신 전체의 로직
+
+        public Player player;
+
         static List<Monster> monsters = new List<Monster>();
 
         public Monster minion = new Monster { name = "미니언", level = 2, health = 15, attack = 5 };
@@ -69,7 +72,8 @@ namespace _16TeamTextRPG
            Console.WriteLine("Battle!!");
            Console.WriteLine();
            List<Monster> list = SummonMonster();// 이리스트를 다른곳에서 써야함
-           foreach (Monster monster in list)//소환된 몬스터 목록 보여주는곳
+
+            foreach (Monster monster in list)//소환된 몬스터 목록 보여주는곳
            {
                if (monster.dead)
                {
@@ -105,11 +109,12 @@ namespace _16TeamTextRPG
                     }
                 }
             }
-                
+            return list;
         }
         //2.공격하기 선택창을 추가하여 공격시 전투 계산 메소드 작동
         public void PlayerAttackField()
         {
+            Console.Clear();
             bool attackcancel = false;
             List<Monster> attackMonster = BattleField();
             do
@@ -140,7 +145,7 @@ namespace _16TeamTextRPG
                 while (true)
                 {
                     bool allMonstersDead = attackMonster.All(monster => monster.dead);//모든 몬스터가 죽으면 true 아니면 false 을 반환
-                    if (allMonstersDead || Player.health = 0)
+                    if (allMonstersDead || Player.health = 0) //승리 조건 검사
                     {
                         BattleResult(allMonstersDead);
                         break;
@@ -158,8 +163,7 @@ namespace _16TeamTextRPG
                         else
                         {
                             Console.Clear();
-                            Player.attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
-                            //승리 조건 검사 아닐시 선택지 뛰우기
+                            player.attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
 
                             //다음 선택지 만들기
                             Console.WriteLine("0. 다음");
@@ -167,7 +171,8 @@ namespace _16TeamTextRPG
                             if (next == 0)
                             {
                                 Console.Clear();
-                                Monster.Attack();//몬스터의 공격 메서드 (몬스터의 공격턴)
+
+                                selectedMonster.Attack();//몬스터의 공격 메서드 (몬스터의 공격턴)
                             }
 
                         }
