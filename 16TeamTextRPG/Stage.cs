@@ -63,7 +63,7 @@ namespace _16TeamTextRPG
             return list; //랜덤설정된 몬스터를 list변수에 보낸다
         }
 
-        public void BattleField()
+        public List<Monster> BattleField()
         { 
            //소환됀 객체들을 필드위에 뛰운다 그리고 필드 몬스터 리스트화?
            Console.WriteLine("Battle!!");
@@ -111,7 +111,7 @@ namespace _16TeamTextRPG
         public void PlayerAttackField()
         {
             bool attackcancel = false;
-            List<Monster> attackMonster = SummonMonster();
+            List<Monster> attackMonster = BattleField();
             do
             {
                 
@@ -139,6 +139,13 @@ namespace _16TeamTextRPG
 
                 while (true)
                 {
+                    bool allMonstersDead = attackMonster.All(monster => monster.dead);//모든 몬스터가 죽으면 true 아니면 false 을 반환
+                    if (allMonstersDead || Player.health = 0)
+                    {
+                        BattleResult(allMonstersDead);
+                        break;
+                    }
+
                     string playerInput = Console.ReadLine();
                     if (int.TryParse(playerInput, out int monIndex) && monIndex > 0 && monIndex <= attackMonster.Count) //입력한숫자가 0이상 선택지
                     {
@@ -152,6 +159,7 @@ namespace _16TeamTextRPG
                         {
                             Console.Clear();
                             Player.attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
+                            //승리 조건 검사 아닐시 선택지 뛰우기
 
                             //다음 선택지 만들기
                             Console.WriteLine("0. 다음");
@@ -177,20 +185,52 @@ namespace _16TeamTextRPG
             } while (attackcancel == false);
         }
         //3.전투가 끝날시 남아있는 현재체력과 현재 스탯표시(결과창)
-        public void BattleVictory(List<Monster> attackMonster)
+        public void BattleResult(bool Result)
         {
-            for (int i = 0; i <= attackMonster.Count; i++)
+            bool allMonstersDead = Result;
+            
+
+            if (allMonstersDead)//모든 몬스터가 죽을시
             {
-                if (!attackMonster[i].dead)
+                Console.WriteLine("Battle!! - Result");
+                Console.WriteLine();
+                Console.WriteLine("Victory");
+                Console.WriteLine();
+
+                Console.WriteLine($"던전에서 몬스터 {MonsterResult.Count}마리를 잡았습니다.");
+                Console.WriteLine();
+                Console.WriteLine($"Lv.{Player.level} {Player.name}");
+                Console.WriteLine($"HP {Player.maxHealth} -> {Player.health}");
+                Console.WriteLine();
+
+                Console.WriteLine("0. 다음");
+                int next = int.Parse(Console.ReadLine());
+                if (next == 0)
                 {
-                    //결과창 메서드
+
+                    Console.WriteLine("끝");
+                }
+            }
+
+            if (Player.health == 0) //플레이어의 현재체력이 0이 될시
+            {
+                Console.WriteLine("Battle!! - Result");
+                Console.WriteLine();
+                Console.WriteLine("You Lose");
+                Console.WriteLine();
+                Console.WriteLine($"Lv.{Player.level} {Player.name}");
+                Console.WriteLine($"HP {Player.maxHealth} -> {Player.health}");
+                Console.WriteLine();
+
+                Console.WriteLine("0. 다음");
+                int next = int.Parse(Console.ReadLine());
+                if (next == 0)
+                {
+                    Console.WriteLine("끝");
                 }
             }
         }
-        public void BattleLose(Player)
-        {
 
-        }
     }
 }
 
