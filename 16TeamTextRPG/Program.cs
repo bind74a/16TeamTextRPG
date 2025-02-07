@@ -23,7 +23,7 @@
         }
 
 
-        public void MainScreen()
+        public void MainScreen() //로비창
         {
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
@@ -37,14 +37,13 @@
             Console.WriteLine();
             Thread.Sleep(500);
 
-            //숫자를 입력하면 해당하는 화면으로 이동
-            while (true)
+            while (true)    //숫자를 입력하면 해당하는 화면으로 이동
             {
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
                 Console.ReadLine();
 
-                int input = ConsoleUtility.GetInput(1, 5);
+                int input = int.Parse(Console.ReadLine());
 
                 switch (input)
                 {
@@ -66,19 +65,16 @@
             }
         }
 
-        //캐릭터 선택창
+        //캐릭터 상태창
         public void StatusScreen()
         {
             Console.Clear();
-            Console.WriteLine("【상태창】");
+            Console.WriteLine("상태창");
             Console.WriteLine("이곳은 캐릭터의 정보를 볼 수 있습니다.");
             Console.WriteLine();
-            Thread.Sleep(500);
 
             player.StatusDisplay(); //플레이어 스탯시트 표시
 
-
-            Thread.Sleep(500); 
             Console.WriteLine();
             Console.WriteLine("선택창)");
             Console.WriteLine("0) 나가기");
@@ -94,7 +90,7 @@
 
                 if (input == 0)
                 {
-                    MainScene();
+                    MainScreen();
                 }
                 else
                 {

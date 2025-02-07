@@ -18,7 +18,7 @@ namespace _16TeamTextRPG
         public int Gold { get; set; }
 
         //플레이어 생성자
-        public player(int level, string name, string job, int atk, int def, int hp, int gold)
+        public Player(int level, string name, string job, int atk, int def, int hp, int gold)
         {
             Level = level;
             Name = name;
