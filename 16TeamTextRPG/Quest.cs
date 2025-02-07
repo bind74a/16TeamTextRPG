@@ -22,7 +22,7 @@ namespace _16TeamTextRPG
         public Guild(Player _player)
         {
             listQuest = new List<Quest>();
-            player = _player;
+            player = GameManager.Instance.player;
 
             QuestInfo info = new QuestInfo();
             info.title          = "마을을 위협하는 미니언 처치";
@@ -34,8 +34,6 @@ namespace _16TeamTextRPG
             info.gold = 100;
             //info.item = 아이템
             listQuest.Add(new Quest(info));
-
-
         }
 
         public void ShowMain()
@@ -76,6 +74,7 @@ namespace _16TeamTextRPG
             if (quest.clear)
                 return;
 
+            Console.Clear();
             Console.WriteLine("Quest!!\n");
 
             // 퀘스트 제목
