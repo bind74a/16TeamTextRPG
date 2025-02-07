@@ -8,6 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+// Quest ID
+// 0 : 미니언 처치
+
 namespace _16TeamTextRPG
 {
     class Guild
