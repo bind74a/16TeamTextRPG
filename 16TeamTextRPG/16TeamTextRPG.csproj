@@ -3,11 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-<<<<<<< Updated upstream
-    <RootNamespace>_16TeamTexTRPG</RootNamespace>
-=======
     <RootNamespace>_16TeamTextRPG</RootNamespace>
->>>>>>> Stashed changes
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
