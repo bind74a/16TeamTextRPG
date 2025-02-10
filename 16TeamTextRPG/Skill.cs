@@ -85,7 +85,7 @@ namespace _16TeamTexTRPG
 
         public void SkillAttack(Player currentplyer, Monster monster , Skill skilldam)//캐릭터의 공격력 * 스킬배율 + 치명타 계산 or MP 계산
             //플레이어의 현재 직업
-            //그직업에 맞게 스킬리스트를 스테이지 에게 보낸다
+            //그직업에 맞게 스킬리스트를 스테이지 에게 보낸다? 플레이어에게 보내야하나?
             //플레이어가 선택한 스킬의 데이터를 다시 받는다
         {
 
