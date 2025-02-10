@@ -34,6 +34,7 @@ namespace _16TeamTextRPG
         public Shop shop;
         public ItemList itemList;
         public MonsterList monsterList;
+        public Inventory inventory;
 
         private GameManager()
         {
@@ -50,6 +51,7 @@ namespace _16TeamTextRPG
             player = new Player(1, "메타몽", "전사", 10, 5, 100, 1500, 0, 0);
             stage = new Stage();
             shop = new Shop();
+            inventory = new Inventory();
         }
 
         private string name; //    _ 
@@ -105,7 +107,7 @@ namespace _16TeamTextRPG
                         StatusScreen();
                         break;
                     case 2:
-                        //InventoryScreen();
+                        inventory.InventoryScreen();
                         break;
                     case 3:
                         shop.ShowMain();
