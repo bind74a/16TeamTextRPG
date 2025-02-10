@@ -193,9 +193,13 @@ namespace _16TeamTextRPG
 
                 Console.WriteLine($"던전에서 몬스터 {summonCount}마리를 잡았습니다.");
                 Console.WriteLine();
+                Console.WriteLine("[캐릭터 정보]");
                 Console.WriteLine($"Lv.{player.level} {player.name}");
                 Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
                 Console.WriteLine();
+                GetReward(); // 보상 획득
+                Console.WriteLine();
+
 
                 Console.WriteLine("0. 다음");
                 int next = int.Parse(Console.ReadLine());
@@ -224,6 +228,21 @@ namespace _16TeamTextRPG
             }
         }
 
+        private void GetReward()
+        {
+            Random rand = new Random();
+            
+            int gold = rand.Next(500, 1000);
+            Item item = GameManager.Instance.itemList.all[rand.Next(0, GameManager.Instance.itemList.all.Count)];
+
+            Console.WriteLine("[획득 아이템]");
+            Console.WriteLine($"{gold} Gold");
+            Console.WriteLine($"{item.Name} - 1");
+            Console.WriteLine();
+
+            player.gold += gold;
+            //player.inven.add(item);
+        }
     }
 }
 
