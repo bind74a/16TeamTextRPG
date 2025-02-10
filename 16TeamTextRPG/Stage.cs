@@ -18,11 +18,14 @@ namespace _16TeamTextRPG
 
         public List<Monster> monsters;
         Random Random = new Random();
+        public int floor;
 
         public Stage()
         {
             player = GameManager.Instance.player;
             monsters = GameManager.Instance.monsterList.monsterList;
+
+            floor = 1;
         }
 
         public List<Monster> SummonMonster()//몬스터 소환
@@ -207,6 +210,9 @@ namespace _16TeamTextRPG
                 {
                     Console.WriteLine("끝");
                 }
+
+                // 던전 층 상승
+                floor++;
             }
 
             if (player.hp == 0) //플레이어의 현재체력이 0이 될시
@@ -233,6 +239,7 @@ namespace _16TeamTextRPG
             Random rand = new Random();
             
             int gold = rand.Next(500, 1000);
+            // 아이템 리스트에서 랜덤으로 아이템 가져오기
             Item item = GameManager.Instance.itemList.all[rand.Next(0, GameManager.Instance.itemList.all.Count)];
 
             Console.WriteLine("[획득 아이템]");

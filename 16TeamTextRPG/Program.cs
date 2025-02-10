@@ -93,7 +93,7 @@ namespace _16TeamTextRPG
                 Console.WriteLine("1. 거울로 내 상태 보기");
                 Console.WriteLine("2. 가방 열어 인벤토리 보기");
                 Console.WriteLine("3. 돈 쓰러 상점 가기");
-                Console.WriteLine("4. 던전 들어가기");
+                Console.WriteLine($"4. 던전 들어가기 (현재 진행: {stage.floor}층)");
                 Console.WriteLine();
                 Thread.Sleep(500);
             
