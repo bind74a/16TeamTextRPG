@@ -1,4 +1,5 @@
 ﻿using _16TeamTextRPG;
+using _16TeamTexTRPG;
 using System.Numerics;
 
 namespace _16TeamTextRPG
@@ -20,57 +21,88 @@ namespace _16TeamTextRPG
 
         public void ShowMain()
         {
-            ShowItem(); //메뉴에서 상점으로 이동 후 상점에서 구매하기 전 실행되는 함수
-            Console.Write("필요한 아이템을 얻을 수 있는 상점입니다");
+            Console.Clear();
+            Inventory.WriteTyping("\n상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Inventory.WriteTyping($"[보유골드]\n{GameManager.Instance.player.gold} G");
+            Inventory.WriteTyping($"\n[아이템 목록]");
 
-            if (int.TryParse(Console.ReadLine(), out int shopItemIndex))
-            {
-                BuyItem(player, shopItemIndex); //상점에서 아이템을 샀을 때 실행되는 함수
-            }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다");
-            }
-        }
-
-        public void ShowItem()
-        {
-            Console.WriteLine("\n필요한 아이템을 얻을 수 있는 상점입니다");
             for (int i = 0; i < ItemForSale.Count; i++)
             {
                 var item = ItemForSale[i];
-                Console.WriteLine($"{i + 1}. {item.Name} (공격력: {item.Atk} || 방어력: {item.Def} || 설명: {item.Option}) || {item.Price} G");
+                string price = item.CanBuy == true ? item.Price.ToString() + "G" : "구매 완료";
+
+                Console.WriteLine($"-  {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price} G");
             }
             Console.WriteLine();
+
+            Inventory.WriteTyping("\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
+
+            int input = CommonUtil.CheckInput(0, 2);
+
+            switch (input)
+            {
+                case 0:
+                    break;
+                case 1: 
+                    BuyItemList();
+                    break;
+            }
         }
 
-        public void BuyItem(Player player, int itemIndex)
+        public void BuyItemList()   // 아이템 구매 리스트 출력
         {
-            //if (itemIndex < 1 || itemIndex > ItemsForSale.Count)
-            //{
-            //    Console.WriteLine("잘못된 선택입니다.");
-            //    return;
-            //}
+            Console.Clear();
+            Console.WriteLine("\n상점 - 아이템 구매\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine($"[보유골드]\n{GameManager.Instance.player.gold} G");
+            Console.WriteLine($"\n[아이템 목록]");
 
-            //foreach (var ownedItem in player.Inventory)
-            //{
-            //    if (ownedItem.Name == itemToBuy.Name)
-            //    {
-            //        Console.WriteLine("이미 구매한 아이템입니다.");
-            //        return;
-            //    }
-            //}
-            //if (player.Gold >= itemToBuy.Price) // 골드가 충분하면 구매가능
-            //{
-            //    player.Gold -= itemToBuy.Price;
-            //    player.Inventory.Add(itemToBuy);
-            //    player.EquipItem(itemToBuy); // 아이템 구매 후 자동으로 장착
-            //    Console.WriteLine($"{itemToBuy.Name}을(를) 구매하고 자동으로 장착했습니다!");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Gold가 부족합니다.");
-            //}
+            if (ItemForSale.Count == 0)
+            {
+                Console.WriteLine("");
+            }
+            else
+            {
+                int i = 1;
+                foreach (Item item in ItemForSale)
+                {
+                    string price = item.CanBuy == true ? item.Price.ToString() + "G" : "구매 완료";
+                    Console.WriteLine($"- {i} {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price} G");
+                    i++;
+                }
+            }
+
+            Console.WriteLine();
+            int input = CommonUtil.CheckInput(0, ItemForSale.Count);
+
+            while (input != 0)
+            {
+                BuyItem(input, GameManager.Instance.player, GameManager.Instance.inventory);
+            }
+
+            if (input == 0) ShowMain();
         }
+
+        public void BuyItem(int index, Player status, Inventory inventory) // 아이템 구매
+        {
+            Item item = ItemForSale[index - 1];
+            if (ItemForSale[index - 1].CanBuy == false)
+            {
+                Console.WriteLine("\n이미 구매한 아이템입니다.");
+            }
+            else if (status.gold >= ItemForSale[index - 1].Price)
+            {
+                status.gold -= ItemForSale[index - 1].Price;
+                inventory.list.Add(ItemForSale[index - 1]);
+                ItemForSale[index - 1].CanBuy = false;
+                Console.WriteLine("\n구매를 완료했습니다.");
+            }
+            else
+            {
+                Console.WriteLine("\nGold 가 부족합니다.");
+            }
+            BuyItemList();
+        }
+
+
     }
 }
