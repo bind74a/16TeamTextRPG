@@ -14,6 +14,7 @@ namespace _16TeamTextRPG
 {
     public class Monster
     {
+<<<<<<< Updated upstream
         public string name;
         public bool dead;
         public int level;
@@ -23,9 +24,21 @@ namespace _16TeamTextRPG
         public int exp;
         public int atk;
         public int def;
+=======
+        string name;
+        bool dead;
+        int level;
+        int maxHealth;
+        int health;
+        int gold;
+        int exp;
+        float attack;
+        float defense;
+>>>>>>> Stashed changes
 
         public Monster(string _name, int _level, int _hp, int _atk)
         {
+<<<<<<< Updated upstream
             name = _name;
             dead = false;
             level = _level;
@@ -35,11 +48,23 @@ namespace _16TeamTextRPG
             exp = 0;
             atk = _atk;
             def = 0;
+=======
+            name        = "";
+            dead        = false;
+            level       = 0;
+            maxHealth   = 0;
+            health      = 0;
+            gold        = 0;
+            exp         = 0;
+            attack      = 0f;
+            defense     = 0f;
+>>>>>>> Stashed changes
         }
 
         public void Attack(Player player)
         {
             Random rand = new Random();
+<<<<<<< Updated upstream
 
             // 공격력의 10% 오차 (오차가 소수점이라면 올림처리);
             int min = atk - (int)Math.Ceiling(atk * 0.1f);
@@ -77,6 +102,11 @@ namespace _16TeamTextRPG
             monsterList.Add(new Monster("공허충", 3, 10, 9));
             monsterList.Add(new Monster("대포미니언", 5, 25, 8));
             monsterList.Add(new Monster("마법사미니언", 4, 8, 11));
+=======
+            rand.Next();
+            // 공격력의 10% 오차
+            float ratio = attack * 0.1f;
+>>>>>>> Stashed changes
         }
     }
 }
