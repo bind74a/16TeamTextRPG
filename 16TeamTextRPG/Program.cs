@@ -1,49 +1,111 @@
-﻿namespace _16TeamTextRPG
+﻿using _16TeamTexTRPG;
+
+namespace _16TeamTextRPG
 {
-    internal class Program
+    class Program
     {
-        //깃허브 테스트 2
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            GameManager gameManager = GameManager.Instance;
+            gameManager.Init();
+
+            gameManager.MainScreen();
         }
     }
 
     //게임 매니저 클래스
-    class GameManager
+    public class GameManager
     {
-        Player player;
+        private static GameManager instance;
 
-        public GameManager()
+        public static GameManager Instance
         {
-            //새로운 플레이어를 생성
-            player = new Player(1, "메타몽", "전사",  10, 5, 100, 1500);
+            get
+            {
+                if (instance == null)
+                    instance = new GameManager();
 
-            //아이템 리스트 생성
+                return instance;
+            }
         }
 
+        public Player player;
+        public Stage stage;
+        public Shop shop;
+        public ItemList itemList;
+        public MonsterList monsterList;
+
+        private GameManager()
+        {
+            
+        }
+
+        public void Init()
+        {
+            //아이템 리스트 생성
+            itemList = new ItemList();
+            monsterList = new MonsterList();
+
+            //새로운 플레이어를 생성
+            player = new Player(1, "메타몽", "전사", 10, 5, 100, 1500);
+            stage = new Stage();
+            shop = new Shop();
+        }
+
+        private string name; //    _ 
+        //                         ㅣ->  외부에서 직접 호출할 필요 없어서 Private 사용     
+        private Job plyaerJob; //  -
+
+        public enum Job
+        {
+            Warrior = 1, // 1을 안쓰면 0부터 시작하기에 1부터 시작하도록 값을 부여
+            Mage,
+            Archer,
+            Thief,
+        }
+
+        private Dictionary<Job, string> jobNames = new Dictionary<Job, string>() //enum에 제시된 영어를 한글화
+        {
+            {Job.Warrior, "전사"},
+            {Job.Mage, "마법사"},
+            {Job.Archer, "궁수"},
+            {Job.Thief, "도적"}
+        };
 
         public void MainScreen() //로비창
         {
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            Console.WriteLine("당신의 이름을 적어주세요.");
+            string name = Console.ReadLine();
+
+            player.playJob = SelectJob();
+
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Thread.Sleep(500);
             Console.WriteLine();
-            Console.WriteLine("1. 거울로 내 상태 보기");
-            Console.WriteLine("2. 가방 열어 인벤토리 보기");
-            Console.WriteLine("3. 돈 쓰러 상점 가기");
-            Console.WriteLine("4. 던전 들어가기");
-            Console.WriteLine();
-            Thread.Sleep(500);
 
+<<<<<<< HEAD
             while (true)    //숫자를 입력하면 해당하는 화면으로 이동
+=======
+            while (true)
+>>>>>>> Develop
             {
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
-                Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n");
 
+<<<<<<< HEAD
                 int input = int.Parse(Console.ReadLine());
+=======
+                Console.WriteLine("1. 거울로 내 상태 보기");
+                Console.WriteLine("2. 가방 열어 인벤토리 보기");
+                Console.WriteLine("3. 돈 쓰러 상점 가기");
+                Console.WriteLine("4. 던전 들어가기");
+                Console.WriteLine();
+                Thread.Sleep(500);
+            
+                int input = CommonUtil.CheckInput(1, 4);
+>>>>>>> Develop
 
                 switch (input)
                 {
@@ -51,17 +113,38 @@
                         StatusScreen();
                         break;
                     case 2:
-                        InventoryScreen();
+                        //InventoryScreen();
                         break;
                     case 3:
-                        ShopScreen();
+                        shop.ShowMain();
                         break;
                     case 4:
-                        DunguenScreen();
+                        stage.BattleField();
                         break;
                 }
+            }
+        }
 
-                Console.WriteLine("잘못된 입력입니다. 다시 입력해 주세요.");
+        private Job SelectJob()
+        {
+            while (true)
+            {
+                Console.WriteLine("\n하고 싶은 직업을 골라주세요.");
+                Console.WriteLine("1. 전사");
+                Console.WriteLine("2. 마법사");
+                Console.WriteLine("3. 궁수");
+                Console.WriteLine("4. 도적");
+                Console.Write("번호 입력해주세요\n>>");
+
+                if (int.TryParse(Console.ReadLine(), out int choice) && Enum.IsDefined(typeof(Job), choice))
+                {
+                    return (Job)choice;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 1~4 사이의 숫자를 입력하세요.");
+                }
+
             }
         }
 
@@ -75,6 +158,10 @@
 
             player.StatusDisplay(); //플레이어 스탯시트 표시
 
+<<<<<<< HEAD
+=======
+            Thread.Sleep(500);
+>>>>>>> Develop
             Console.WriteLine();
             Console.WriteLine("선택창)");
             Console.WriteLine("0) 나가기");
@@ -82,13 +169,10 @@
 
             while (true)
             {
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
-                Console.ReadLine();
-
-                int input = int.Parse(Console.ReadLine());
+                int input = CommonUtil.CheckInput(0, 0);
 
                 if (input == 0)
+<<<<<<< HEAD
                 {
                     MainScreen();
                 }
@@ -98,6 +182,9 @@
                     continue;
                 }
 
+=======
+                    break;
+>>>>>>> Develop
             }
         }
     }
