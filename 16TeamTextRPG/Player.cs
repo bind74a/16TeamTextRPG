@@ -75,7 +75,29 @@
         {
             exp += Exp;
             Console.WriteLine($"경험치 {Exp}를 얻었습니다.");
-            totalExp();
+
+            if(level == 1)
+            {
+                levelUpforExp = 10;
+                totalExp();
+            }
+            else if(level == 2)
+            {
+                levelUpforExp = 35;
+                totalExp();
+            }
+            else if (level == 3)
+            {
+                levelUpforExp = 65;
+                totalExp();
+            }
+            else if (level == 4)
+            {
+                levelUpforExp = 100;
+                totalExp();
+            }
+
+            
         }
 
         public void totalExp() //레벨업 조건에 부합했을 경우의 함수
@@ -83,12 +105,9 @@
             if (levelUpforExp <= exp) //레벨업에 필요한 경험치보다 많은 경험치를 가졌을 경우
             {
                 level++;//레벨 1씩 증가
-                exp -= levelUpforExp; //레벨업에 쓰인 경험치 만큼 경험치에서 차감
-                levelUpforExp += 50; //다음 레벨업에 필요한 경험치 지속적 증가
-                atk++; //레벨업시 증가하는 스텟
-                def++; 
-                hp += 10; 
-                Console.WriteLine($"{name}이(가) 레벨업 하였습니다! 현재 레벨: {level}");
+                exp = 0;
+                atk++;
+                def++;
             }
         }
     }

@@ -73,10 +73,10 @@ namespace _16TeamTextRPG
         {
             monsterList = new List<Monster>();
             
-            monsterList.Add(new Monster("미니언", 2, 15, 5, 30)); ////매개변수로 경험치값 추가 30
-            monsterList.Add(new Monster("공허충", 3, 10, 9, 20)); //// 20
-            monsterList.Add(new Monster("대포미니언", 5, 25, 8, 60)); //// 60
-            monsterList.Add(new Monster("마법사미니언", 4, 8, 11, 40)); //// 40
+            monsterList.Add(new Monster("미니언", 2, 15, 5, 2)); ////매개변수로 경험치값 추가 2
+            monsterList.Add(new Monster("공허충", 3, 10, 9, 3)); //// 3
+            monsterList.Add(new Monster("대포미니언", 5, 25, 8, 5)); //// 5
+            monsterList.Add(new Monster("마법사미니언", 4, 8, 11, 4)); //// 4
         }
     }
 }
