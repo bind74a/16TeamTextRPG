@@ -49,6 +49,7 @@ namespace _16TeamTextRPG
 
             // 최종 공격력
             int final = rand.Next(min, max + 1);
+            int lastHp = player.hp;
 
             player.hp -= final;
             if (player.hp <= 0)
@@ -62,7 +63,7 @@ namespace _16TeamTextRPG
             Console.WriteLine($"{player.name}을(를) 맞췄습니다. [데미지: {final}]\n"); // Chad 을(를) 맞췄습니다. [데미지: 6]
 
             Console.WriteLine($"Lv.{player.level} {player.name}"); // Lv.1 Chad
-            Console.WriteLine($"HP {player.hp} -> {player.hp}"); // HP 100 -> 94
+            Console.WriteLine($"HP {lastHp} -> {player.hp}"); // HP 100 -> 94
         }
     }
 

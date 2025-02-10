@@ -24,5 +24,12 @@ namespace _16TeamTexTRPG
                 Console.WriteLine("잘못된 입력입니다.");
             }
         }
+
+        public static void WriteLine(string value, ConsoleColor consoleColor)
+        {
+            Console.ForegroundColor = consoleColor;
+            Console.WriteLine();
+            Console.ResetColor();
+        }
     }
 }
