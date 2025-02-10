@@ -48,7 +48,7 @@ namespace _16TeamTextRPG
             monsterList = new MonsterList();
 
             //새로운 플레이어를 생성
-            player = new Player(1, "메타몽", "전사", 10, 5, 100, 1500);
+            player = new Player(1, "메타몽", "전사", 10, 5, 100, 1500, 0, 0);
             stage = new Stage();
             shop = new Shop();
             inventory = new Inventory();
@@ -74,7 +74,7 @@ namespace _16TeamTextRPG
             {Job.Thief, "도적"}
         };
 
-        public void MainScreen()
+        public void MainScreen() //로비창
         {
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
@@ -95,10 +95,10 @@ namespace _16TeamTextRPG
                 Console.WriteLine("1. 거울로 내 상태 보기");
                 Console.WriteLine("2. 가방 열어 인벤토리 보기");
                 Console.WriteLine("3. 돈 쓰러 상점 가기");
-                Console.WriteLine("4. 던전 들어가기");
+                Console.WriteLine($"4. 던전 들어가기 (현재 진행: {stage.floor}층)");
                 Console.WriteLine();
                 Thread.Sleep(500);
-            
+
                 int input = CommonUtil.CheckInput(1, 4);
 
                 switch (input)
@@ -142,18 +142,18 @@ namespace _16TeamTextRPG
             }
         }
 
-        //캐릭터 선택창
+        //캐릭터 상태창
         public void StatusScreen()
         {
             Console.Clear();
-            Console.WriteLine("【상태창】");
+            Console.WriteLine("상태창");
             Console.WriteLine("이곳은 캐릭터의 정보를 볼 수 있습니다.");
             Console.WriteLine();
-            Thread.Sleep(500);
 
             player.StatusDisplay(); //플레이어 스탯시트 표시
 
             Thread.Sleep(500);
+
             Console.WriteLine();
             Console.WriteLine("선택창)");
             Console.WriteLine("0) 나가기");
@@ -164,7 +164,14 @@ namespace _16TeamTextRPG
                 int input = CommonUtil.CheckInput(0, 0);
 
                 if (input == 0)
+                {
                     break;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 입력해 주세요.");
+                    continue;
+                }
             }
         }
     }

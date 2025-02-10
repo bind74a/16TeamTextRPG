@@ -24,7 +24,9 @@ namespace _16TeamTextRPG
         public int atk;
         public int def;
 
-        public Monster(string _name, int _level, int _hp, int _atk)
+
+        public Monster(string _name, int _level, int _hp, int _atk, int _exp)
+
         {
             name = _name;
             dead = false;
@@ -32,7 +34,7 @@ namespace _16TeamTextRPG
             maxHp = _hp;
             hp = maxHp;
             gold = 0;
-            exp = 0;
+            exp = _exp;
             atk = _atk;
             def = 0;
         }
@@ -48,10 +50,14 @@ namespace _16TeamTextRPG
             int max = atk + (int)Math.Ceiling(atk * 0.1f);*/
 
             // 최종 공격력
+
             int finalDamage;
             //int final = rand.Next(min, max + 1);
             bool isCriticalDamage = rand.Next(100) <= 15; // 15%의 확률로 크리티컬 데미지 발생
             bool isMissDamage = rand.Next(100) <= 20; // 20%의 확률로 회피 발생
+            int final = rand.Next(min, max + 1);
+            int lastHp = player.hp;
+
 
             player.hp -= final;
             
@@ -82,7 +88,7 @@ namespace _16TeamTextRPG
             Console.WriteLine($"{player.name}을(를) 맞췄습니다. [데미지: {final}]\n"); // Chad 을(를) 맞췄습니다. [데미지: 6]
 
             Console.WriteLine($"Lv.{player.level} {player.name}"); // Lv.1 Chad
-            Console.WriteLine($"HP {player.hp} -> {player.hp}"); // HP 100 -> 94
+            Console.WriteLine($"HP {lastHp} -> {player.hp}"); // HP 100 -> 94
         }
     }
 
@@ -94,11 +100,11 @@ namespace _16TeamTextRPG
         public MonsterList()
         {
             monsterList = new List<Monster>();
-            
-            monsterList.Add(new Monster("미니언", 2, 15, 5));
-            monsterList.Add(new Monster("공허충", 3, 10, 9));
-            monsterList.Add(new Monster("대포미니언", 5, 25, 8));
-            monsterList.Add(new Monster("마법사미니언", 4, 8, 11));
+           
+            monsterList.Add(new Monster("미니언", 2, 15, 5, 2)); //매개변수로 경험치값 추가 2
+            monsterList.Add(new Monster("공허충", 3, 10, 9, 3)); // 3
+            monsterList.Add(new Monster("대포미니언", 5, 25, 8, 5)); //5
+            monsterList.Add(new Monster("마법사미니언", 4, 8, 11, 4)); ///4
         }
     }
 }
