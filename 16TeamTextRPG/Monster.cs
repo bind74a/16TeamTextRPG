@@ -42,14 +42,36 @@ namespace _16TeamTextRPG
             Random rand = new Random();
 
             // 공격력의 10% 오차 (오차가 소수점이라면 올림처리);
-            int min = atk - (int)Math.Ceiling(atk * 0.1f);
-            int max = atk + (int)Math.Ceiling(atk * 0.1f);
+            
+            int BaseDamage = 10; // 기본스탯 고정(?)
+            /*int min = atk - (int)Math.Ceiling(atk * 0.1f);
+            int max = atk + (int)Math.Ceiling(atk * 0.1f);*/
 
             // 최종 공격력
-            int final = rand.Next(min, max + 1);
+            int finalDamage;
+            //int final = rand.Next(min, max + 1);
+            bool isCriticalDamage = rand.Next(100) <= 15; // 15%의 확률로 크리티컬 데미지 발생
+            bool isMissDamage = rand.Next(100) <= 20; // 20%의 확률로 회피 발생
 
             player.hp -= final;
-            if (player.hp <= 0)
+            
+            if ( isMissDamage)
+            {
+                finalDamage = 0;
+                Console.WriteLine("{player.name}(이)가 회피에 성공하였습니다다. [데미지 : {final}]");
+            }
+
+            else if (isCriticalDamage)
+            {
+                finalDamage = (int)(BaseDamage + (BaseDamage * 1.6)); // 크리티컬이 발생하였을 때 적용되는 공식
+            }
+
+            else (isCriticalDamage)
+            {
+                finalDamage = BaseDamage; // 크리티컬이랑 회피가 발생하지 않을 경우 호출되는 함수수
+            }
+            
+            else (player.hp <= 0)
             {
                 //player.dead = true;
                 player.hp = 0;
