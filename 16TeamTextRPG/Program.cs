@@ -81,6 +81,7 @@ namespace _16TeamTextRPG
             Console.WriteLine("당신의 이름을 적어주세요.");
             string name = Console.ReadLine();
 
+            player.name = name;
             player.playJob = SelectJob();
 
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");

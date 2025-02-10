@@ -88,7 +88,6 @@ namespace _16TeamTexTRPG
             //그직업에 맞게 스킬리스트를 스테이지 에게 보낸다? 플레이어에게 보내야하나?
             //플레이어가 선택한 스킬의 데이터를 다시 받는다
         {
-
             Random rand = new Random();
             
             if(currentplyer.mp < skilldam.useMp)//현재 mp 보다 소모 mp가 많을시
@@ -101,7 +100,6 @@ namespace _16TeamTexTRPG
             }
             else
             {
-
                 // 공격력의 10% 오차 (오차가 소수점이라면 올림처리);
                 int min = currentplyer.atk - (int)Math.Ceiling(currentplyer.atk * 0.1f);
                 int max = currentplyer.atk + (int)Math.Ceiling(currentplyer.atk * 0.1f);
@@ -110,7 +108,8 @@ namespace _16TeamTexTRPG
                 int final = rand.Next(min, max + 1);
                 float skillfinal = final * skilldam.skillsAtk; //선택한 스킬의 배율
 
-                float criticalfinal = Critical(skillfinal);//치명타 계산이 끝난 데이터 보관
+                //float criticalfinal = Critical(skillfinal);//치명타 계산이 끝난 데이터 보관
+                float criticalfinal = skillfinal; // 치명타 계산
 
                 currentplyer.mp -= skilldam.useMp;//남은 마나 계산
                 monster.hp -= final;
