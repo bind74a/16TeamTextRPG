@@ -53,13 +53,14 @@ namespace _16TeamTextRPG
         {        
             
             //소환됀 객체들을 필드위에 뛰운다 그리고 필드 몬스터 리스트화?
-            Console.Clear();
-            Console.WriteLine("Battle!!");
-            Console.WriteLine();
+            
             List<Monster> list = SummonMonster();// 이리스트를 다른곳에서 써야함
 
             while (true)
-            {                
+            {
+                Console.Clear();
+                Console.WriteLine("Battle!!");
+                Console.WriteLine();
                 foreach (Monster monster in list)//소환된 몬스터 목록 보여주는곳
                 {
                     if (monster.dead)
@@ -313,7 +314,7 @@ namespace _16TeamTextRPG
 
                     //skill.SkillAttack(player, selectedMonster, SelectedjobSkill(player));
 
-                    skill = CommonUtil.SelectedjobSkill(player); //지정한 스킬의 데이터를 스킬 클래스를 변수로 지정한곳에 보낸다
+                    skill = CommonUtil.SelectedjobSkill(player); //지정한 스킬의 데이터를 스킬 클래스 변수로 지정한곳에 보낸다
                     Console.Clear();
                     skill.SkillAttack(player, selectedMonster);
 
