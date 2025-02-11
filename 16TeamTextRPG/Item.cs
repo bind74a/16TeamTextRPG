@@ -155,10 +155,6 @@ namespace _16TeamTextRPG
         public Inventory()
         {
 
-            foreach (Item item in GameManager.Instance.itemList.all)
-            {
-                list.Add(item);
-            }
         }
 
         public static void WriteTyping(string str)
@@ -177,7 +173,7 @@ namespace _16TeamTextRPG
 
             WriteTyping("\n인벤토리\n보유 중인 아이템을 관리할 수 있습니다.\n");
 
-            Console.WriteLine($"[아이템 목록]");
+            WriteTyping($"[아이템 목록]");
 
             if (list.Count == 0)
             {
