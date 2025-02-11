@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _16TeamTexTRPG;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static _16TeamTexTRPG.Skill;
 
 
 namespace _16TeamTextRPG
@@ -15,8 +17,12 @@ namespace _16TeamTextRPG
     {
         //구현할것 : 전투신 전체의 로직
         public Player player;
+        public Skill skill;
 
         public List<Monster> monsters;
+
+        public List<Skill> skillList;
+        //스킬 리스트 변수 생성
         Random Random = new Random();
         public int floor;
 
@@ -44,41 +50,48 @@ namespace _16TeamTextRPG
         }
 
         public void BattleField()
-        {
+        {        
+            
             //소환됀 객체들을 필드위에 뛰운다 그리고 필드 몬스터 리스트화?
-           Console.Clear();
-           Console.WriteLine("Battle!!");
-           Console.WriteLine();
-           List<Monster> list = SummonMonster();// 이리스트를 다른곳에서 써야함
+            
+            List<Monster> list = SummonMonster();// 이리스트를 다른곳에서 써야함
 
-            foreach (Monster monster in list)//소환된 몬스터 목록 보여주는곳
-           {
-               if (monster.dead)
-               {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;//글자 어두운 회색으로 변경
-                    Console.WriteLine($"Lv.{monster.level} {monster.name} Dead ");
-                    Console.ResetColor();
-                }
-               else
-               {
-                    Console.WriteLine($"Lv.{monster.level} {monster.name} HP {monster.hp} ");
-               }
-           }
-
-           Console.WriteLine();
-           Console.WriteLine("[내정보]");
-           player.StatusDisplay();
-           Console.WriteLine();
-           Console.WriteLine("1. 공격");
-           Console.Write("원하시는 행동을 입력해주세요 : ");
             while (true)
             {
+                Console.Clear();
+                Console.WriteLine("Battle!!");
+                Console.WriteLine();
+                foreach (Monster monster in list)//소환된 몬스터 목록 보여주는곳
+                {
+                    if (monster.dead)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;//글자 어두운 회색으로 변경
+                        Console.WriteLine($"Lv.{monster.level} {monster.name} Dead ");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Lv.{monster.level} {monster.name} HP {monster.hp} ");
+                    }
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("[내정보]");
+                player.StatusDisplay();
+                Console.WriteLine();
+
+                Console.WriteLine("1. 공격");
+                Console.WriteLine("2. 스킬 공격");
+                Console.Write("원하시는 행동을 입력해주세요 : ");
                 if (int.TryParse(Console.ReadLine(), out int choice))
                 {
                     switch (choice)
                     {
                         case 1:
                             playerAttackField(list);
+                            break;
+                            case 2:
+                            playerSkillAttackField(list);
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
@@ -250,6 +263,97 @@ namespace _16TeamTextRPG
             player.gold += gold;
             //player.inven.add(item);
         }
+
+        public void playerSkillAttackField(List<Monster> attackMonster)
+        //직업 인식후 직업에 맞는 스킬 리스트 가져오기
+        {
+            Console.Clear();
+            int choiceMonster = 1;
+            List<Monster> summon = attackMonster;
+            foreach (Monster monster in summon) //소환된 몬스터 개체수 만큼 선택지를 늘리기
+            {
+                if (monster.dead == true)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;//글자 어두운 회색으로 변경
+                    Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} Dead ");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"{choiceMonster}. Lv.{monster.level} {monster.name} HP {monster.hp} ");
+                }
+                choiceMonster++;
+            }
+            Console.WriteLine("[내정보]");
+            player.StatusDisplay();
+            Console.WriteLine();
+            Console.WriteLine($"{choiceMonster}. 취소");
+            Console.WriteLine();
+            Console.Write("공격할 몬스터를 선택해주세요. : ");
+
+
+            bool allMonstersDead = attackMonster.All(monster => monster.dead);//모든 몬스터가 죽으면 true 아니면 false 을 반환
+            if (allMonstersDead || player.hp == 0) //승리 조건 검사
+            {
+                Console.Clear();
+                BattleResult(allMonstersDead, summon.Count);
+            }
+
+            string playerInput = Console.ReadLine();
+            if (int.TryParse(playerInput, out int monIndex) && monIndex > 0 && monIndex <= attackMonster.Count) //입력한숫자가 0이상 선택지
+            {
+                Monster selectedMonster = attackMonster[monIndex - 1];// 유저가 선택한 개채 변수에 저장
+
+                if (selectedMonster.dead)//개체가 죽었을시
+                {
+                    Console.WriteLine("이미 죽은 몬스터입니다.");
+                }
+                else
+                {
+                    Console.Clear();
+
+                    //skill.SkillAttack(player, selectedMonster, SelectedjobSkill(player));
+
+                    skill = CommonUtil.SelectedjobSkill(player); //지정한 스킬의 데이터를 스킬 클래스 변수로 지정한곳에 보낸다
+                    Console.Clear();
+                    skill.SkillAttack(player, selectedMonster);
+
+                    //CommonUtil.SelectedjobSkill(player).SkillAttack(selectedMonster); // .을기준으로 왼쪽의 데이터가 오른쪽으로 옮겨지면서 기동
+
+                    //다음 선택지 만들기
+                    while (true)
+                    {
+                        Console.WriteLine("0. 다음");
+                        int next = int.Parse(Console.ReadLine());
+                        if (next == 0)
+                        {
+                            Console.Clear();
+                            selectedMonster.Attack(player);//몬스터의 공격 메서드 (몬스터의 공격턴)
+                            Console.WriteLine("0. 다음");
+                            int next2 = int.Parse(Console.ReadLine());
+                            if (next2 == 0)
+                            {
+                                Console.Clear();
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("잘못된 입력입니다.");
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("잘못된 입력입니다.");
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+        
     }
 }
 

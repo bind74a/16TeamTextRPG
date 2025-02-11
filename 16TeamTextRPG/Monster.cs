@@ -63,6 +63,7 @@ namespace _16TeamTextRPG
             
             if ( isMissDamage)
             {
+                Console.Clear();
                 finalDamage = 0;
                 Console.WriteLine("{player.name}(이)가 회피에 성공하였습니다다. [데미지 : {final}]");
             }
