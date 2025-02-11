@@ -48,7 +48,7 @@ namespace _16TeamTextRPG
             monsterList = new MonsterList();
 
             //새로운 플레이어를 생성
-            player = new Player(1, "메타몽", "전사", 10, 5, 100, 1500, 0, 0);
+            player = new Player(1, name, "", 10, 5, 100, 1500, 0, 10);
             stage = new Stage();
             shop = new Shop();
             inventory = new Inventory();
@@ -56,7 +56,7 @@ namespace _16TeamTextRPG
 
         private string name; //    _ 
         //                         ㅣ->  외부에서 직접 호출할 필요 없어서 Private 사용     
-        private Job plyaerJob; //  -
+        private Job playerJob; //  -
 
         public enum Job
         {
@@ -74,6 +74,37 @@ namespace _16TeamTextRPG
             {Job.Thief, "도적"}
         };
 
+        //직업별 능력치 창
+        private void SetPlayerStats(Player player)
+        {
+            switch (player.playJob)
+            {
+                case GameManager.Job.Warrior:
+                    player.atk = 5;
+                    player.def = 10;
+                    player.maxHp = 120;
+                    break;
+                case GameManager.Job.Mage:
+                    player.atk = 15;
+                    player.def = 2;
+                    player.maxHp = 80;
+                    break;
+                case GameManager.Job.Archer:
+                    player.atk = 12;
+                    player.def = 5;
+                    player.maxHp = 80;
+                    break;
+                case GameManager.Job.Thief:
+                    player.atk = 10;
+                    player.def = 5;
+                    player.maxHp = 100;
+                    break;
+            }
+
+            // 초기 HP 설정
+            player.hp = player.maxHp;
+        }
+
         public void MainScreen() //로비창
         {
             Console.Clear();
@@ -83,6 +114,8 @@ namespace _16TeamTextRPG
 
             player.name = name;
             player.playJob = SelectJob();
+            player.job = jobNames[player.playJob]; //직업 선택시 상태창에 표기가 되지 않아 추가 
+            SetPlayerStats(player);
 
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Thread.Sleep(500);
@@ -131,13 +164,18 @@ namespace _16TeamTextRPG
                 Console.WriteLine("4. 도적");
                 Console.Write("번호 입력해주세요\n>>");
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && Enum.IsDefined(typeof(Job), choice))
+                int choice = CommonUtil.CheckInput(1, 4);
+
+                switch (choice)
                 {
-                    return (Job)choice;
-                }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다. 1~4 사이의 숫자를 입력하세요.");
+                    case 1:
+                        return Job.Warrior;
+                    case 2:
+                        return Job.Mage;
+                    case 3:
+                        return Job.Archer;
+                    case 4:
+                        return Job.Thief;
                 }
 
             }

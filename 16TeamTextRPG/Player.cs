@@ -92,6 +92,7 @@ namespace _16TeamTextRPG
             {
                 //player.dead = true;
                 monster.hp = 0;
+                GainExp(monster.exp);
             }
 
             // Consol UI
@@ -132,11 +133,11 @@ namespace _16TeamTextRPG
             
         }
 
-        public void totalExp() //레벨업 조건에 부합했을 경우의 함수
+        public void totalExp()
         {
-            if (levelUpforExp <= exp) //레벨업에 필요한 경험치보다 많은 경험치를 가졌을 경우
+            if (levelUpforExp <= exp) 
             {
-                level++;//레벨 1씩 증가
+                level++;
                 exp = 0;
                 atk++;
                 def++;
