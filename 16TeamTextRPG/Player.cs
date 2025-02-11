@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using _16TeamTexTRPG;
+using System.Numerics;
 
 namespace _16TeamTextRPG
 {
@@ -59,26 +60,25 @@ namespace _16TeamTextRPG
             Random rand = new Random();
 
             // 공격력의 10% 오차 (오차가 소수점이라면 올림처리);
-            int BaseDamage = atk; // 
-            /*int min = atk - (int)Math.Ceiling(atk * 0.1f);
-            int max = atk + (int)Math.Ceiling(atk * 0.1f);*/
+            int min = atk - (int)Math.Ceiling(atk * 0.1f);
+            int max = atk + (int)Math.Ceiling(atk * 0.1f);
+            int BaseDamage = rand.Next(min, max + 1);
+            //int BaseDamage = atk; // 장비데미지 추가 필요
 
             // 최종 공격력
-
             int finalDamage = 0;
-            //int final = rand.Next(min, max + 1);
             bool isCriticalDamage = rand.Next(100) <= 15; // 15%의 확률로 크리티컬 데미지 발생
             bool isMissDamage = rand.Next(100) <= 20; // 20%의 확률로 회피 발생
             //int final = rand.Next(min, max + 1);
             int lastHp = monster.hp;
 
-            if (isMissDamage)
-            {
-                finalDamage = 0;
-                Console.WriteLine("{monster.name}(이)가 회피에 성공하였습니다다. [데미지 : {final}]");
-            }
+            //if (isMissDamage) // 몬스터 회피 너무 불쾌함
+            //{
+            //    finalDamage = 0;
+            //    //Console.WriteLine("{monster.name}(이)가 회피에 성공하였습니다다. [데미지 : {final}]");
+            //}
 
-            else if (isCriticalDamage)
+            if (isCriticalDamage)
             {
                 finalDamage = (int)(BaseDamage + (BaseDamage * 1.6)); // 크리티컬이 발생하였을 때 적용되는 공식
             }
@@ -90,17 +90,25 @@ namespace _16TeamTextRPG
             monster.hp -= finalDamage;
             if (monster.hp <= 0)
             {
-                //player.dead = true;
+                monster.dead = true;
                 monster.hp = 0;
-                GainExp(monster.exp);
             }
 
             // Consol UI
-            Console.WriteLine($"Lv.{level} {name}의 공격!"); // Lv.2 미니언의 공격!
-            Console.WriteLine($"{monster.name}을(를) 맞췄습니다. [데미지: {finalDamage}]\n"); // Chad 을(를) 맞췄습니다. [데미지: 6]
+            if (isCriticalDamage)
+                CommonUtil.WriteLine($"Lv.{level} {name}의 크리티컬공격!!", ConsoleColor.DarkRed);
+            else
+                Console.WriteLine($"Lv.{level} {name}의 공격!"); // Lv.2 미니언의 공격!
+            Console.WriteLine($"{monster.name}을(를) 맞췄습니다. [데미지: {finalDamage}]\n");
 
             Console.WriteLine($"Lv.{monster.level} {monster.name}"); // Lv.1 Chad
             Console.WriteLine($"HP {lastHp} -> {monster.hp}"); // HP 100 -> 94
+
+            // 몬스터 처치 시
+            if (monster.dead)
+                GainExp(monster.exp);
+
+            Console.WriteLine();
         }
 
         //경험치 얻었을 경우의 함수
@@ -109,37 +117,41 @@ namespace _16TeamTextRPG
             exp += Exp;
             Console.WriteLine($"경험치 {Exp}를 얻었습니다.");
 
-            if(level == 1)
-            {
-                levelUpforExp = 10;
-                totalExp();
-            }
-            else if(level == 2)
-            {
-                levelUpforExp = 35;
-                totalExp();
-            }
-            else if (level == 3)
-            {
-                levelUpforExp = 65;
-                totalExp();
-            }
-            else if (level == 4)
-            {
-                levelUpforExp = 100;
-                totalExp();
-            }
-
-            
+            totalExp();
+            //if(level == 1)
+            //{
+            //    levelUpforExp = 10;
+            //    totalExp();
+            //}
+            //else if(level == 2)
+            //{
+            //    levelUpforExp = 35;
+            //    totalExp();
+            //}
+            //else if (level == 3)
+            //{
+            //    levelUpforExp = 65;
+            //    totalExp();
+            //}
+            //else if (level == 4)
+            //{
+            //    levelUpforExp = 100;
+            //    totalExp();
+            //}
         }
 
         public void totalExp()
         {
             if (levelUpforExp <= exp) 
             {
-                level++;
+                CommonUtil.WriteLine("LevelUp!!", ConsoleColor.DarkRed);
+                Console.Write($"Lv: {level} -> "); CommonUtil.WriteLine($"{++level}", ConsoleColor.DarkRed);
+                Console.Write($"MaxHp: {maxHp} -> "); CommonUtil.WriteLine($"{maxHp += 10}", ConsoleColor.DarkRed);
+                Console.Write($"Atk: {atk} -> "); CommonUtil.WriteLine($"{++atk}", ConsoleColor.DarkRed);
+                
+                levelUpforExp *= level;
                 exp = 0;
-                atk++;
+                //atk++;
                 def++;
             }
         }

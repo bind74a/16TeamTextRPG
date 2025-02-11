@@ -25,7 +25,6 @@ namespace _16TeamTexTRPG
 
         public Skill(string name, float skillsatk, int usemp)
         {
-
             skillName = name;
             skillsAtk = skillsatk;
             useMp = usemp;

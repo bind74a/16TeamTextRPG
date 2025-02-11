@@ -30,7 +30,7 @@ namespace _16TeamTexTRPG
         public static void WriteLine(string value, ConsoleColor consoleColor)
         {
             Console.ForegroundColor = consoleColor;
-            Console.WriteLine();
+            Console.WriteLine(value);
             Console.ResetColor();
         }
         public static Skill SelectedjobSkill(Player player)

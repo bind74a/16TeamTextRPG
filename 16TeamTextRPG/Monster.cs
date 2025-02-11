@@ -1,7 +1,9 @@
 ﻿using _16TeamTextRPG;
+using _16TeamTexTRPG;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection.PortableExecutable;
@@ -39,35 +41,41 @@ namespace _16TeamTextRPG
             def = 0;
         }
 
+        public Monster(Monster monster)
+        {
+            name = monster.name;
+            dead = false;
+            level = monster.level;
+            maxHp = monster.hp;
+            hp = maxHp;
+            gold = 0;
+            exp = monster.exp;
+            atk = monster.atk;
+            def = 0;
+        }
+
         public void Attack(Player player)
         {
             Random rand = new Random();
 
             // 공격력의 10% 오차 (오차가 소수점이라면 올림처리);
+            int min = atk - (int)Math.Ceiling(atk * 0.1f);
+            int max = atk + (int)Math.Ceiling(atk * 0.1f);
+            int BaseDamage = rand.Next(min, max + 1);
+            //int BaseDamage = atk; // 기본스탯 고정(?)
             
-            int BaseDamage = atk; // 기본스탯 고정(?)
-            /*int min = atk - (int)Math.Ceiling(atk * 0.1f);
-            int max = atk + (int)Math.Ceiling(atk * 0.1f);*/
-
             // 최종 공격력
-
             int finalDamage = 0;
-            //int final = rand.Next(min, max + 1);
             bool isCriticalDamage = rand.Next(100) <= 15; // 15%의 확률로 크리티컬 데미지 발생
             bool isMissDamage = rand.Next(100) <= 20; // 20%의 확률로 회피 발생
-            //int final = rand.Next(min, max + 1);
             int lastHp = player.hp;
-
-
-            //player.hp -= final;
             
             if ( isMissDamage)
             {
-                Console.Clear();
+                //Console.Clear();
                 finalDamage = 0;
-                Console.WriteLine("{player.name}(이)가 회피에 성공하였습니다다. [데미지 : {final}]");
+                //Console.WriteLine("{player.name}(이)가 회피에 성공하였습니다다. [데미지 : {final}]");
             }
-
             else if (isCriticalDamage)
             {
                 finalDamage = (int)(BaseDamage + (BaseDamage * 1.6)); // 크리티컬이 발생하였을 때 적용되는 공식
@@ -85,11 +93,18 @@ namespace _16TeamTextRPG
             }
 
             // Consol UI
-            Console.WriteLine($"Lv.{level} {name}의 공격!"); // Lv.2 미니언의 공격!
-            Console.WriteLine($"{player.name}을(를) 맞췄습니다. [데미지: {finalDamage}]\n"); // Chad 을(를) 맞췄습니다. [데미지: 6]
+            if (isCriticalDamage)
+                CommonUtil.WriteLine($"Lv.{level} {name}의 크리티컬공격!!", ConsoleColor.DarkRed);
+            else
+                Console.WriteLine($"Lv.{level} {name}의 공격!"); // Lv.2 미니언의 공격!
+            if ( isMissDamage)
+                Console.WriteLine($"{player.name}(이)가 회피에 성공하였습니다다.\n");
+            else
+                Console.WriteLine($"{player.name}을(를) 맞췄습니다. [데미지: {finalDamage}]\n"); // Chad 을(를) 맞췄습니다. [데미지: 6]
 
             Console.WriteLine($"Lv.{player.level} {player.name}"); // Lv.1 Chad
             Console.WriteLine($"HP {lastHp} -> {player.hp}"); // HP 100 -> 94
+            Console.WriteLine();
         }
     }
 

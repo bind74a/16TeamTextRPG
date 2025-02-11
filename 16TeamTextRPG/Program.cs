@@ -10,6 +10,8 @@ namespace _16TeamTextRPG
             gameManager.Init();
 
             gameManager.MainScreen();
+            Json jsUtil = new Json("Player.json");
+            jsUtil.Save(gameManager.player);
         }
     }
 
@@ -130,10 +132,14 @@ namespace _16TeamTextRPG
                 Console.WriteLine("2. 가방 열어 인벤토리 보기");
                 Console.WriteLine("3. 돈 쓰러 상점 가기");
                 Console.WriteLine($"4. 던전 들어가기 (현재 진행: {stage.floor}층)");
+                Console.WriteLine("0. 나가기");
                 Console.WriteLine();
                 Thread.Sleep(500);
 
-                int input = CommonUtil.CheckInput(1, 4);
+                int input = CommonUtil.CheckInput(0, 4);
+
+                if (input == 0)
+                    break;
 
                 switch (input)
                 {
