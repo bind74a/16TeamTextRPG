@@ -46,6 +46,9 @@ namespace _16TeamTextRPG
                 case 1: 
                     BuyItemList();
                     break;
+                case 2:
+                    ShowSellItem();
+                    break;
             }
         }
 
@@ -74,12 +77,12 @@ namespace _16TeamTextRPG
             Console.WriteLine();
             int input = CommonUtil.CheckInput(0, ItemForSale.Count);
 
-            while (input != 0)
+            if (input == 0)
             {
-                BuyItem(input, GameManager.Instance.player, GameManager.Instance.inventory);
+                ShowMain();
             }
 
-            if (input == 0) ShowMain();
+            else BuyItem(input, GameManager.Instance.player, GameManager.Instance.inventory);
         }
 
         public void BuyItem(int index, Player status, Inventory inventory) // 아이템 구매
@@ -103,6 +106,55 @@ namespace _16TeamTextRPG
             BuyItemList();
         }
 
+        public void ShowSellItem() // 아이템 판매창 출력
+        {
+            Console.Clear();
+            Console.WriteLine("\n상점 - 아이템 판매\n아이템을 판매 할 수 있는 상점입니다.\n");
+            Console.WriteLine($"[보유골드]\n{GameManager.Instance.player.gold} G");
+            Console.WriteLine($"\n[아이템 목록]");
+            SellItemList(GameManager.Instance.inventory);
+            Console.WriteLine();
+ 
+            int input = CommonUtil.CheckInput(0, GameManager.Instance.inventory.list.Count);
+            
+            if (input == 0)
+            {
+                ShowMain();
+            }
+            else if (input <= GameManager.Instance.inventory.list.Count)
+            {
+                Console.Clear();
+                SellItem(input, GameManager.Instance.player, GameManager.Instance.inventory);
+                ShowSellItem();
+            }
+        }
 
+        public void SellItemList(Inventory inventory)   // 아이템 판매 리스트 출력
+        {
+            if (inventory.list.Count == 0)
+            {
+                Console.WriteLine("");
+            }
+            else
+            {
+                int i = 1;
+                foreach (Item item in inventory.list)
+                {
+                    string price = ((int)(item.Price * 0.85f)).ToString() + "G";
+                    Console.WriteLine($"- {i} {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price}");
+                    i++;
+                }
+            }
+        }
+
+        public void SellItem(int index, Player player, Inventory inventory) // 아이템 판매
+        {
+            Item item = inventory.list[index - 1];
+            inventory.EquipItem(index, player);
+            inventory.list.RemoveAt(index - 1);
+            ItemForSale[index].CanBuy = true;
+            player.gold += (int)(item.Price * 0.85f);
+            Console.WriteLine("판매를 완료했습니다.");
+        }
     }
 }

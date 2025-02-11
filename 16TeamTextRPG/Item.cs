@@ -155,10 +155,6 @@ namespace _16TeamTextRPG
         public Inventory()
         {
 
-            foreach (Item item in GameManager.Instance.itemList.all)
-            {
-                list.Add(item);
-            }
         }
 
         public static void WriteTyping(string str)
