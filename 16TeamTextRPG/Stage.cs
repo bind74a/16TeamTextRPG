@@ -318,7 +318,7 @@ namespace _16TeamTextRPG
                     Console.Clear();
                     skill.SkillAttack(player, selectedMonster);
 
-                    //CommonUtil.SelectedjobSkill(player).SkillAttack(player, selectedMonster);
+                    //CommonUtil.SelectedjobSkill(player).SkillAttack(selectedMonster); // .을기준으로 왼쪽의 데이터가 오른쪽으로 옮겨지면서 기동
 
                     //다음 선택지 만들기
                     while (true)
