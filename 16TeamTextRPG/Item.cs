@@ -10,21 +10,23 @@ namespace _16TeamTextRPG
 {
     public class Item
     {
-        public string Name { get; } // 아이템 이름
-        public string Option { get; }   // 아이템 옵션
-        public string Info { get; } // 아이템 설명
-        public string Type { get; protected set; }  // 아이템 타입( 무기, 방어구, 악세사리, 소모품)
+        public string Name { get; set; } // 아이템 이름
+        public string Option { get; set; }   // 아이템 옵션
+        public string Info { get; set; } // 아이템 설명
+        public string Type { get; set; }  // 아이템 타입( 무기, 방어구, 악세사리, 소모품)
 
-        public int Price { get; }   // 아이템 가격
-        public int Atk { get; }   // 아이템 공격력
-        public int Def { get; }   // 아이템 방어력
-        public int Hp { get; }   // 아이템 체력
-        public int Mp { get; }   // 아이템 마력
-        public int MaxHp { get; } // 아이템 최대 체력
+        public int Price { get; set; }   // 아이템 가격
+        public int Atk { get; set; }   // 아이템 공격력
+        public int Def { get; set; }   // 아이템 방어력
+        public int Hp { get; set; }   // 아이템 체력
+        public int Mp { get; set; }   // 아이템 마력
+        public int MaxHp { get; set; } // 아이템 최대 체력
 
 
         public bool CanBuy; // true = 구매 가능한 상태 (기본값 true)
         public bool IsEquip;    // true = 착용한 상태 (기본값 false)
+
+        public Item() { }
 
         public Item(ref Stat stat)
         {

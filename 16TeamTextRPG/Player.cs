@@ -197,7 +197,7 @@ namespace _16TeamTextRPG
                 Console.Write($"MaxHp: {maxHp} -> "); CommonUtil.WriteLine($"{maxHp += 10}", ConsoleColor.DarkRed);
                 Console.Write($"Atk: {atk} -> "); CommonUtil.WriteLine($"{++atk}", ConsoleColor.DarkRed);
                 
-                levelUpforExp *= level;
+                levelUpforExp = 25 * level;
                 exp = 0;
                 //atk++;
                 def++;

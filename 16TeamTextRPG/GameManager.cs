@@ -112,7 +112,7 @@ namespace _16TeamTextRPG
             Console.Clear();
             if (player.Load()) // 플레이어 불러오기 성공했을때
             {
-                //inventory.LoadInven();
+                inventory.LoadInven();
             }
             else // 세이브파일이 없을때
             {
