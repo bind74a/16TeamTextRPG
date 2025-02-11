@@ -152,7 +152,7 @@ namespace _16TeamTextRPG
             Item item = inventory.list[index - 1];
             inventory.EquipItem(index, player);
             inventory.list.RemoveAt(index - 1);
-            ItemForSale[index].CanBuy = true;
+            ItemForSale[index - 1].CanBuy = true;
             player.gold += (int)(item.Price * 0.85f);
             Console.WriteLine("판매를 완료했습니다.");
         }
