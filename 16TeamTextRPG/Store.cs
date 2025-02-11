@@ -31,7 +31,7 @@ namespace _16TeamTextRPG
                 var item = ItemForSale[i];
                 string price = item.CanBuy == true ? item.Price.ToString() + "G" : "구매 완료";
 
-                Console.WriteLine($"-  {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price} G");
+                Console.WriteLine($"-  {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price}".PadLeft(6));
             }
             Console.WriteLine();
 
@@ -69,7 +69,7 @@ namespace _16TeamTextRPG
                 foreach (Item item in ItemForSale)
                 {
                     string price = item.CanBuy == true ? item.Price.ToString() + "G" : "구매 완료";
-                    Console.WriteLine($"- {i} {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price} G");
+                    Console.WriteLine($"- {i} {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price}".PadLeft(6));
                     i++;
                 }
             }
@@ -153,7 +153,7 @@ namespace _16TeamTextRPG
                 foreach (Item item in inventory.list)
                 {
                     string price = ((int)(item.Price * 0.85f)).ToString() + "G";
-                    Console.WriteLine($"- {i} {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price}");
+                    Console.WriteLine($"- {i} {item.Name}" + "|" + $"{item.Option}" + "|" + $"{item.Info}" + "|" + $"{price}".PadLeft(6));
                     i++;
                 }
             }
