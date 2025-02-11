@@ -13,26 +13,25 @@ using System.Threading.Tasks;
 
 namespace _16TeamTextRPG
 {
-    class Guild
+    public class Guild
     {
         List<Quest> listQuest;
-
         Player player;
         
-        public Guild(Player _player)
+        public Guild()
         {
             listQuest = new List<Quest>();
             player = GameManager.Instance.player;
 
             QuestInfo info = new QuestInfo();
-            info.title          = "마을을 위협하는 미니언 처치";
-            info.description    = "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?\n" +
+            info.title          = "마을을 위협하는 몬스터 처치";
+            info.description    = "이봐! 마을 근처에 몬스터들이 너무 많아졌다고 생각하지 않나?\n" +
                                   "마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
                                   "모험가인 자네가 좀 처치해주게!";
-            info.goalDesc       = "미니언 5마리 처치";
+            info.goalDesc       = "몬스터 5마리 처치";
             info.goal = 5;
-            info.gold = 100;
-            //info.item = 아이템
+            info.gold = 2000;
+            info.item = new Item(GameManager.Instance.itemList.all[0]);
             listQuest.Add(new Quest(info));
         }
 
@@ -41,7 +40,7 @@ namespace _16TeamTextRPG
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Quest!!\n");
+                CommonUtil.WriteLine("Quest!!\n", ConsoleColor.DarkYellow);
 
                 // 퀘스트 목록
                 int idx = 0;
@@ -49,10 +48,10 @@ namespace _16TeamTextRPG
                 foreach (Quest quest in listQuest)
                 {
                     idx++;
-                    if (quest.clear) { progress = "퀘스트 완료"; }
-                    else if (quest.accept) { progress = "퀘스트 진행 중"; }
+                    if (quest.clear) { progress = "(퀘스트 완료)"; }
+                    else if (quest.accept) { progress = "(퀘스트 진행 중)"; }
 
-                    Console.WriteLine($"{idx}. {quest.title} ({progress})");
+                    Console.WriteLine($"{idx}. {quest.title} {progress}");
                 }
                 Console.WriteLine("0. 나가기\n");
 
@@ -68,14 +67,14 @@ namespace _16TeamTextRPG
 
         public void ShowQuest(int questIdx)
         {
-            Quest quest = listQuest[questIdx];
+            Quest quest = listQuest[questIdx - 1];
 
             // 이미 클리어한 퀘스트라면 main으로 돌아가기
             if (quest.clear)
                 return;
 
             Console.Clear();
-            Console.WriteLine("Quest!!\n");
+            CommonUtil.WriteLine("Quest!!\n", ConsoleColor.DarkYellow);
 
             // 퀘스트 제목
             Console.WriteLine(quest.title);
@@ -90,19 +89,19 @@ namespace _16TeamTextRPG
             Console.WriteLine();
 
             // 보상
-            Console.WriteLine("[보상]\n");
-            Console.WriteLine($"{quest.item.Name}\n");
+            Console.WriteLine("[보상]");
+            Console.WriteLine($"{quest.item.Name}");
             Console.WriteLine($"{quest.gold}G\n");
 
             // 수락, 보상받기
             if (quest.accept) 
             {
-                Console.WriteLine("1. 보상 받기\n");
+                Console.WriteLine("1. 보상 받기");
                 Console.WriteLine("2. 돌아가기\n");
             }
             else
             {
-                Console.WriteLine("1. 수락\n");
+                Console.WriteLine("1. 수락");
                 Console.WriteLine("2. 거절\n");
             }
 
@@ -142,7 +141,7 @@ namespace _16TeamTextRPG
                 quest.accept = false; // 퀘스트 수락 해제
 
                 // 보상 지급
-                //player.Inven.Add(quest.item);
+                GameManager.Instance.inventory.list.Add(quest.item);
                 player.gold += quest.gold;
                 
                 Console.WriteLine("보상 지급완료!");

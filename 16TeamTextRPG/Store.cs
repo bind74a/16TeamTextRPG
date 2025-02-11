@@ -88,15 +88,27 @@ namespace _16TeamTextRPG
         public void BuyItem(int index, Player status, Inventory inventory) // 아이템 구매
         {
             Item item = ItemForSale[index - 1];
-            if (ItemForSale[index - 1].CanBuy == false)
+            if (item.CanBuy == false)
             {
                 Console.WriteLine("\n이미 구매한 아이템입니다.");
             }
-            else if (status.gold >= ItemForSale[index - 1].Price)
+            else if (status.gold >= item.Price)
             {
-                status.gold -= ItemForSale[index - 1].Price;
-                inventory.list.Add(ItemForSale[index - 1]);
-                ItemForSale[index - 1].CanBuy = false;
+                status.gold -= item.Price;
+
+                if (item.Type == "consumable_hp") // 물약일때
+                {
+                    inventory.potion[(int)Inventory.ePotionType.HP]++;
+                }
+                else if (item.Type == "consumable_mp")
+                {
+                    inventory.potion[(int)Inventory.ePotionType.MP]++;
+                }
+                else
+                {
+                    inventory.list.Add(item);
+                    item.CanBuy = false;
+                }
                 Console.WriteLine("\n구매를 완료했습니다.");
             }
             else

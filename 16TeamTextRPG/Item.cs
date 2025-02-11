@@ -19,6 +19,7 @@ namespace _16TeamTextRPG
         public int Atk { get; }   // 아이템 공격력
         public int Def { get; }   // 아이템 방어력
         public int Hp { get; }   // 아이템 체력
+        public int Mp { get; }   // 아이템 마력
         public int MaxHp { get; } // 아이템 최대 체력
 
 
@@ -35,10 +36,27 @@ namespace _16TeamTextRPG
             Def = stat.Def;
             Hp = stat.Hp;
             MaxHp = stat.MaxHp;
+            Type = stat.Type;
 
             CanBuy = true;
             IsEquip = false;
             stat.Init();
+        }
+
+        public Item(Item item)
+        {
+            Name = item.Name;
+            Option = item.Option;
+            Info = item.Info;
+            Price = item.Price;
+            Atk = item.Atk;
+            Def = item.Def;
+            Hp = item.Hp;
+            MaxHp = item.MaxHp;
+            Type = item.Type;
+
+            CanBuy = true;
+            IsEquip = false;
         }
 
         public void EquipOption(Player player)
@@ -48,6 +66,7 @@ namespace _16TeamTextRPG
             player.atk += Atk * sign;
             player.def += Def * sign;
             player.hp += Hp * sign;
+            player.mp += Mp * sign;
             player.maxHp += MaxHp * sign;
         }
     }
@@ -63,8 +82,8 @@ namespace _16TeamTextRPG
         public int Atk = 0;   // 아이템 공격력
         public int Def = 0; // 아이템 방어력
         public int Hp = 0;   // 아이템 체력
+        public int Mp = 0;   // 아이템 체력
         public int MaxHp = 0;
-
 
         public bool CanBuy = true; // true = 구매 가능한 상태 (기본값 true)
         public bool IsEquip = false;    // true = 착용한 상태 (기본값 false)
@@ -85,41 +104,10 @@ namespace _16TeamTextRPG
             Atk = 0;  
             Def = 0; 
             Hp = 0;   
+            Mp = 0;
 
             CanBuy = true; 
             IsEquip = false; 
-        }
-    }
-
-    public class Weapon : Item  // 무기
-    {
-        public Weapon(ref Stat stat) : base(ref stat)
-        {
-            Type = "weapon";
-        }
-    }
-
-    public class Armor : Item  // 방어구
-    {
-        public Armor(ref Stat stat) : base(ref stat)
-        {
-            Type = "armor";
-        }
-    }
-
-    public class Accessory : Item  // 악세서리
-    {
-        public Accessory(ref Stat stat) : base(ref stat)
-        {
-            Type = "accessory";
-        }
-    }
-
-    public class Consumable : Item  // 소모품
-    {
-        public Consumable(ref Stat stat) : base(ref stat)
-        {
-            Type = "consumable";
         }
     }
 
@@ -130,30 +118,57 @@ namespace _16TeamTextRPG
 
         public ItemList()
         {
-            stat.Name = "    낡은 검     "; stat.Option = " 공격력  +2 "; stat.Info = " 쉽게 볼 수 있는 낡은 검 입니다."; stat.Price = 600; stat.Atk = 2;
-            all.Add(new Weapon(ref stat));
-            stat.Name = "   청동 도끼    "; stat.Option = " 공격력  +5 "; stat.Info = " 어디선가 사용됐던거 같은 도끼입니다."; stat.Price = 1500; stat.Atk = 5;
-            all.Add(new Weapon(ref stat));
-            stat.Name = " 스파르타의 창  "; stat.Option = " 공격력  +7 "; stat.Info = " 스파르타의 전사들이 사용했다는 전설의 창입니다."; stat.Price = 2500; stat.Atk = 7;
-            all.Add(new Weapon(ref stat));
-            stat.Name = "  수련자 갑옷   "; stat.Option = " 방어력  +5 "; stat.Info = " 수련에 도움을 주는 갑옷입니다."; stat.Price = 1000; stat.Def = 5;
-            all.Add(new Armor(ref stat));
-            stat.Name = "   무쇠갑옷     "; stat.Option = " 방어력  +9 "; stat.Info = " 무쇠로 만들어져 튼튼한 갑옷입니다."; stat.Price = 2000; stat.Def = 9;
-            all.Add(new Armor(ref stat));
-            stat.Name = "스파르타의 갑옷 "; stat.Option = " 방어력 +15 "; stat.Info = " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다."; stat.Price = 3500; stat.Def = 15;
-            all.Add(new Armor(ref stat));
-            stat.Name = " 소형 HP 포션   "; stat.Option = " 체  력 +20 "; stat.Info = " 체력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Hp = 20;
-            all.Add(new Consumable(ref stat));
+            stat.Name = "    낡은 검     "; stat.Option = " 공격력  +2 "; stat.Info = " 쉽게 볼 수 있는 낡은 검 입니다."; stat.Price = 600; stat.Atk = 2; stat.Type = "weapon";
+            all.Add(new Item(ref stat));
+            stat.Name = "   청동 도끼    "; stat.Option = " 공격력  +5 "; stat.Info = " 어디선가 사용됐던거 같은 도끼입니다."; stat.Price = 1500; stat.Atk = 5; stat.Type = "weapon";
+            all.Add(new Item(ref stat));
+            stat.Name = " 스파르타의 창  "; stat.Option = " 공격력  +7 "; stat.Info = " 스파르타의 전사들이 사용했다는 전설의 창입니다."; stat.Price = 2500; stat.Atk = 7; stat.Type = "weapon";
+            all.Add(new Item(ref stat));
+            stat.Name = "  수련자 갑옷   "; stat.Option = " 방어력  +5 "; stat.Info = " 수련에 도움을 주는 갑옷입니다."; stat.Price = 1000; stat.Def = 5; stat.Type = "armor";
+            all.Add(new Item(ref stat));
+            stat.Name = "   무쇠갑옷     "; stat.Option = " 방어력  +9 "; stat.Info = " 무쇠로 만들어져 튼튼한 갑옷입니다."; stat.Price = 2000; stat.Def = 9; stat.Type = "armor";
+            all.Add(new Item(ref stat));
+            stat.Name = "스파르타의 갑옷 "; stat.Option = " 방어력 +15 "; stat.Info = " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다."; stat.Price = 3500; stat.Def = 15; stat.Type = "armor";
+            all.Add(new Item(ref stat));
+            stat.Name = " 소형 HP 포션   "; stat.Option = " 체  력 +20 "; stat.Info = " 체력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Hp = 20; stat.Type = "consumable_hp";
+            all.Add(new Item(ref stat));
+            stat.Name = " 소형 MP 포션   "; stat.Option = " 마  력 +20 "; stat.Info = " 마력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Mp = 20; stat.Type = "consumable_mp";
+            all.Add(new Item(ref stat));
         }
 
     }
 
     public class Inventory
     {
+        public enum ePotionType { HP, MP, END }
+        public int[] potion = new int[(int)ePotionType.END];
+
         public List<Item> list = new List<Item>();
+        
+        public Item? equipWeapon = null;
+        public Item? equipArmor = null;
+
+        Json json;
 
         public Inventory()
         {
+            json = new Json("Inventory.json");
+
+            for (int i = 0; i < potion.Length; i++) { potion[i] = 3; }
+        }
+
+        public void Free()
+        {
+            json.Save(this);
+        }
+
+        public void LoadInven()
+        {
+            Inventory inven = json.Load<Inventory>();
+
+            if (inven == null)
+                return;
+
 
         }
 
@@ -252,38 +267,147 @@ namespace _16TeamTextRPG
                 }
         }
 
+        public void ConsumableScreen() // 소비 아이템 출력창
+        {
+            Player player = GameManager.Instance.player;
+
+            while (true)
+            {
+                Console.Clear();
+                CommonUtil.WriteLine("회복", ConsoleColor.DarkYellow);
+                Console.WriteLine("포션을 사용하면 체력/마력을 30 회복 할 수 있습니다.");
+                Console.WriteLine();
+
+                Console.WriteLine($"체력: {player.hp} / {player.maxHp}");
+                Console.WriteLine($"마력: {player.mp} / {player.maxMp}");
+                Console.WriteLine();
+
+                Console.WriteLine($"1. HP포션 사용하기 (남은 포션: {potion[(int)ePotionType.HP]})");
+                Console.WriteLine($"2. MP포션 사용하기 (남은 포션: {potion[(int)ePotionType.MP]})");
+                Console.WriteLine("0. 나가기");
+                Console.WriteLine();
+
+                int input = CommonUtil.CheckInput(0, 2);
+
+                if (input == 0)
+                    return;
+
+                UsePotion((ePotionType)(input - 1));
+            }
+        }
+
+        private void UsePotion(ePotionType eType)
+        {
+            Player player = GameManager.Instance.player;
+
+            switch (eType)
+            {
+                case ePotionType.HP:
+                    {
+                        if (potion[(int)ePotionType.HP] <= 0)
+                        {
+                            CommonUtil.WriteLine("포션이 부족합니다.", ConsoleColor.Red);
+                            break;
+                        }
+                        else
+                        {
+                            potion[(int)ePotionType.HP]--;
+
+                            player.hp += 30;
+                            if (player.hp >= player.maxHp)
+                                player.hp = player.maxHp;
+
+                            CommonUtil.WriteLine("회복을 완료했습니다.", ConsoleColor.Cyan);
+                        }
+                    }
+                    break;
+                case ePotionType.MP:
+                    {
+                        if (potion[(int)ePotionType.MP] <= 0)
+                        {
+                            CommonUtil.WriteLine("포션이 부족합니다.", ConsoleColor.Red);
+                            break;
+                        }
+                        else
+                        {
+                            potion[(int)ePotionType.MP]--;
+                            player.mp += 30;
+                            if (player.mp >= player.maxMp)
+                                player.mp = player.maxMp;
+
+                            CommonUtil.WriteLine("회복을 완료했습니다.", ConsoleColor.Cyan);
+                        }
+                    }
+                    break;
+            }
+
+            Thread.Sleep(500);
+        }
+
         public void EquipItem(int index, Player player) // 아이템 장착
         {
             Item item = list[index - 1];
 
-            if (item.Type == "consumable")  // 소비 아이템 사용 시 인벤토리에서 삭제
+           if (item.Type == "weapon")
             {
-                list.Remove(item);
-                item.IsEquip = true;
-            }
-            else if (item.IsEquip == false)
-            {
-                foreach (Item i in list)
+                if (equipWeapon != null)
                 {
-                    if (i.Type == item.Type && i.IsEquip == true)   // 장비 아이템의 타입이 같을 시 기존 장비 해제 후 장착
+                    equipWeapon.IsEquip = false;
+
+                    if (equipWeapon.Equals(item))
                     {
-                        i.IsEquip = false;
-                        i.EquipOption(player);
-                        break;
+                        equipWeapon = null;
+                        return;
                     }
                 }
+                
+                equipWeapon = item;
                 item.IsEquip = true;
             }
-            else
+            else if (item.Type == "armor")
             {
-                item.IsEquip = false;
-            }
-            item.EquipOption(player);
+                if (equipArmor != null)
+                {
+                    equipArmor.IsEquip = false;
 
-            if (player.hp >= player.maxHp)  // 현재 체력의 상한선 = 최대 체력
-            {
-                player.hp = player.maxHp;
+                    if (equipArmor.Equals(item))
+                    {
+                        equipArmor = null;
+                        return;
+                    }
+                }
+
+                equipArmor = item;
+                item.IsEquip = true;
             }
+
+            //else if (item.IsEquip == false)
+            //{
+            //    foreach (Item i in list)
+            //    {
+            //        if (i.Type == item.Type && i.IsEquip == true)   // 장비 아이템의 타입이 같을 시 기존 장비 해제 후 장착
+            //        {
+            //            i.IsEquip = false;
+            //            i.EquipOption(player);
+            //            break;
+            //        }
+            //    }
+            //    item.IsEquip = true;
+            //}
+            //else
+            //{
+            //    item.IsEquip = false;
+            //}
+
+            //if (player.hp >= player.maxHp)  // 현재 체력의 상한선 = 최대 체력
+            //{
+            //    player.hp = player.maxHp;
+            //}
+
+            //if (player.mp >= player.maxMp)  // 현재 마력의 상한선 = 최대 마력
+            //{
+            //    player.mp = player.maxMp;
+            //}
         }
     }
 }

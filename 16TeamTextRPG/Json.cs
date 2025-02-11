@@ -35,7 +35,7 @@ namespace _16TeamTextRPG
             string serialize = File.ReadAllText(filePath);
 
             // 제네릭 클래스 반환
-            return JsonConvert.DeserializeObject<T>(filePath);
+            return JsonConvert.DeserializeObject<T>(serialize);
         }
     }
 }

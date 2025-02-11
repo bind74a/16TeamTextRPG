@@ -220,7 +220,6 @@ namespace _16TeamTextRPG
                 GetReward(); // 보상 획득
                 Console.WriteLine();
 
-
                 Console.WriteLine("0. 돌아가기\n");
 
                 //int next = int.Parse(Console.ReadLine());
@@ -256,14 +255,13 @@ namespace _16TeamTextRPG
         {
             Random rand = new Random();
             
-            int gold = rand.Next(500, 1000);
+            int gold = rand.Next(5, 10) * 100;
             // 아이템 리스트에서 랜덤으로 아이템 가져오기
-            Item item = GameManager.Instance.itemList.all[rand.Next(0, GameManager.Instance.itemList.all.Count)];
+            Item item = new Item(GameManager.Instance.itemList.all[rand.Next(0, GameManager.Instance.itemList.all.Count)]);
 
             Console.WriteLine("[획득 아이템]");
             Console.WriteLine($"{gold} Gold");
             Console.WriteLine($"{item.Name}");
-            Console.WriteLine();
 
             player.gold += gold;
             GameManager.Instance.inventory.list.Add(item);
@@ -273,6 +271,9 @@ namespace _16TeamTextRPG
         //직업 인식후 직업에 맞는 스킬 리스트 가져오기
         {
             Console.Clear();
+            CommonUtil.WriteLine("Battle!!", ConsoleColor.DarkYellow);
+            Console.WriteLine();
+
             int choiceMonster = 1;
             List<Monster> summon = attackMonster;
             foreach (Monster monster in summon) //소환된 몬스터 개체수 만큼 선택지를 늘리기
@@ -289,6 +290,8 @@ namespace _16TeamTextRPG
                 }
                 choiceMonster++;
             }
+
+            Console.WriteLine();
             Console.WriteLine("[내정보]");
             player.StatusDisplay();
             Console.WriteLine();
@@ -321,18 +324,20 @@ namespace _16TeamTextRPG
 
                     skill = CommonUtil.SelectedjobSkill(player); //지정한 스킬의 데이터를 스킬 클래스 변수로 지정한곳에 보낸다
                     Console.Clear();
-                    skill.SkillAttack(player, selectedMonster);
-
+                    CommonUtil.WriteLine("Battle!! - Player Phase\n", ConsoleColor.DarkYellow);
+                    skill.SkillAttack(selectedMonster);
                     //CommonUtil.SelectedjobSkill(player).SkillAttack(selectedMonster); // .을기준으로 왼쪽의 데이터가 오른쪽으로 옮겨지면서 기동
 
                     //다음 선택지 만들기
                     while (true)
                     {
+                        Console.WriteLine();
                         Console.WriteLine("0. 다음\n");
                         int next = int.Parse(Console.ReadLine());
                         if (next == 0)
                         {
                             Console.Clear();
+                            CommonUtil.WriteLine("Battle!! - Enemy Phase\n", ConsoleColor.DarkYellow);
                             selectedMonster.Attack(player);//몬스터의 공격 메서드 (몬스터의 공격턴)
                             Console.WriteLine("0. 다음\n");
                             int next2 = int.Parse(Console.ReadLine());
@@ -345,7 +350,6 @@ namespace _16TeamTextRPG
                             {
                                 Console.WriteLine("잘못된 입력입니다.");
                             }
-
                         }
                         else
                         {

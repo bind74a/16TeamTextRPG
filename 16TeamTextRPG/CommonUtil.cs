@@ -33,6 +33,7 @@ namespace _16TeamTexTRPG
             Console.WriteLine(value);
             Console.ResetColor();
         }
+
         public static Skill SelectedjobSkill(Player player)
         {
             List<Skill> selectedSkill = new List<Skill>();
@@ -62,8 +63,11 @@ namespace _16TeamTexTRPG
             int choice = 0;
             while (true)
             {
-                Console.Write("사용할 스킬의 번호를 입력 해주세요. : ");
-                choice = int.Parse(Console.ReadLine() ?? "0");//유저의 입력 숫자 미입력시 결과값 0 출력
+                Console.WriteLine();
+                //Console.Write("사용할 스킬의 번호를 입력 해주세요. : ");
+
+                //choice = int.Parse(Console.ReadLine() ?? "0");//유저의 입력 숫자 미입력시 결과값 0 출력
+                choice = CheckInput(0, selectedSkill.Count);
 
                 if (choice >= 1 && choice <= selectedSkill.Count)//유저의 입력이 1 이상 선택지 이하 인지 검사 
                 {
