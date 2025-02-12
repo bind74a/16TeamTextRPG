@@ -132,10 +132,10 @@ namespace _16TeamTextRPG
             all.Add(new Item(ref stat));
             stat.Name = "스파르타의 갑옷 "; stat.Option = " 방어력 +15 "; stat.Info = " 스파르타의 전사들이 사용했다는 전설의 갑옷입니다."; stat.Price = 3500; stat.Def = 15; stat.Type = "armor";
             all.Add(new Item(ref stat));
-            stat.Name = " 소형 HP 포션   "; stat.Option = " 체  력 +20 "; stat.Info = " 체력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Hp = 20; stat.Type = "consumable_hp";
-            all.Add(new Item(ref stat));
-            stat.Name = " 소형 MP 포션   "; stat.Option = " 마  력 +20 "; stat.Info = " 마력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Mp = 20; stat.Type = "consumable_mp";
-            all.Add(new Item(ref stat));
+            //stat.Name = " 소형 HP 포션   "; stat.Option = " 체  력 +20 "; stat.Info = " 체력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Hp = 20; stat.Type = "consumable_hp";
+            //all.Add(new Item(ref stat));
+            //stat.Name = " 소형 MP 포션   "; stat.Option = " 마  력 +20 "; stat.Info = " 마력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Mp = 20; stat.Type = "consumable_mp";
+            //all.Add(new Item(ref stat));
         }
 
     }

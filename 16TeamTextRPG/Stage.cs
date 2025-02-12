@@ -263,60 +263,50 @@ namespace _16TeamTextRPG
             Console.WriteLine("[내정보]");
             player.StatusDisplay();
             Console.WriteLine();
-            Console.WriteLine($"{choiceMonster}. 취소");
+            Console.WriteLine("0. 취소");
             Console.WriteLine();
             Console.Write("공격할 몬스터를 선택해주세요. : ");
 
             string playerInput = Console.ReadLine();
-            if (int.TryParse(playerInput, out int monIndex) && monIndex > 0 && monIndex <= attackMonster.Count) //입력한숫자가 0이상 선택지
+            int monIndex = CommonUtil.CheckInput(0, attackMonster.Count);
+
+            if (monIndex == 0) // 스킬 공격 취소
+                return;
+
+            Monster selectedMonster = attackMonster[monIndex - 1];// 유저가 선택한 개채 변수에 저장
+
+            if (selectedMonster.dead)//개체가 죽었을시
             {
-                Monster selectedMonster = attackMonster[monIndex - 1];// 유저가 선택한 개채 변수에 저장
+                Console.WriteLine("이미 죽은 몬스터입니다.");
+                Thread.Sleep(500);
+            }
+            else
+            {
+                ///// Player Turn
+                Console.Clear();
+                //skill.SkillAttack(player, selectedMonster, SelectedjobSkill(player));
+                skill = CommonUtil.SelectedjobSkill(player); //지정한 스킬의 데이터를 스킬 클래스 변수로 지정한곳에 보낸다
+                Console.Clear();
+                CommonUtil.WriteLine("Battle!! - Player Phase\n", ConsoleColor.DarkYellow);
+                skill.SkillAttack(selectedMonster);
+                //CommonUtil.SelectedjobSkill(player).SkillAttack(selectedMonster); // .을기준으로 왼쪽의 데이터가 오른쪽으로 옮겨지면서 기동
 
-                if (selectedMonster.dead)//개체가 죽었을시
-                {
-                    Console.WriteLine("이미 죽은 몬스터입니다.");
-                }
-                else
-                {
-                    Console.Clear();
+                //다음 선택지 만들기
+                Console.WriteLine();
+                Console.WriteLine("0. 다음\n");
+                CommonUtil.CheckInput(0, 0);
+                
+                if (selectedMonster.dead) // 방금 플레이어의 공격으로 몬스터가 죽었다면 종료
+                    return;
 
-                    //skill.SkillAttack(player, selectedMonster, SelectedjobSkill(player));
-
-                    skill = CommonUtil.SelectedjobSkill(player); //지정한 스킬의 데이터를 스킬 클래스 변수로 지정한곳에 보낸다
-                    Console.Clear();
-                    CommonUtil.WriteLine("Battle!! - Player Phase\n", ConsoleColor.DarkYellow);
-                    skill.SkillAttack(selectedMonster);
-                    //CommonUtil.SelectedjobSkill(player).SkillAttack(selectedMonster); // .을기준으로 왼쪽의 데이터가 오른쪽으로 옮겨지면서 기동
-
-                    //다음 선택지 만들기
-                    while (true)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("0. 다음\n");
-                        int next = int.Parse(Console.ReadLine());
-                        if (next == 0)
-                        {
-                            Console.Clear();
-                            CommonUtil.WriteLine("Battle!! - Enemy Phase\n", ConsoleColor.DarkYellow);
-                            selectedMonster.Attack(player);//몬스터의 공격 메서드 (몬스터의 공격턴)
-                            Console.WriteLine("0. 다음\n");
-                            int next2 = int.Parse(Console.ReadLine());
-                            if (next2 == 0)
-                            {
-                                Console.Clear();
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("잘못된 입력입니다.");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("잘못된 입력입니다.");
-                        }
-                    }
-                }
+                ///// Enemy Turn
+                Console.Clear();
+                CommonUtil.WriteLine("Battle!! - Enemy Phase\n", ConsoleColor.DarkYellow);
+                selectedMonster.Attack(player);//몬스터의 공격 메서드 (몬스터의 공격턴)
+                
+                Console.WriteLine("0. 다음\n");
+                CommonUtil.CheckInput(0, 0);
+                Console.Clear();
             }
         }
     }
