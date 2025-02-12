@@ -129,7 +129,8 @@ namespace _16TeamTextRPG
 
         public void UpdateProgress(int questIdx)
         {
-            listQuest[questIdx].progress++;
+            if (listQuest[questIdx].accept) // 퀘스트를 받은 경우에만
+                listQuest[questIdx].progress++;
         }
 
         private bool GetReward(Quest quest)
