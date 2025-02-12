@@ -14,7 +14,7 @@ namespace _16TeamTextRPG
         {
             get
             {
-                Item item = GameManager.Instance.inventory.equipWeapon;
+                Item? item = GameManager.Instance.inventory.equipWeapon;
                 return atk + (item == null ? 0 : item.Atk);
             }
         }
@@ -24,7 +24,7 @@ namespace _16TeamTextRPG
         {
             get
             {
-                Item item = GameManager.Instance.inventory.equipArmor;
+                Item? item = GameManager.Instance.inventory.equipArmor;
                 return def + (item == null ? 0 : item.Def);
             }
         }
@@ -107,16 +107,14 @@ namespace _16TeamTextRPG
             Random rand = new Random();
 
             // 공격력의 10% 오차 (오차가 소수점이라면 올림처리);
-            int min = Atk - (int)Math.Ceiling(atk * 0.1f);
-            int max = Atk + (int)Math.Ceiling(atk * 0.1f);
+            int min = Atk - (int)Math.Ceiling(Atk * 0.1f);
+            int max = Atk + (int)Math.Ceiling(Atk * 0.1f);
             int BaseDamage = rand.Next(min, max + 1);
-            //int BaseDamage = atk; // 장비데미지 추가 필요
 
             // 최종 공격력
             int finalDamage = 0;
             bool isCriticalDamage = rand.Next(100) <= 15; // 15%의 확률로 크리티컬 데미지 발생
             bool isMissDamage = rand.Next(100) <= 20; // 20%의 확률로 회피 발생
-            //int final = rand.Next(min, max + 1);
             int lastHp = monster.hp;
 
             //if (isMissDamage) // 몬스터 회피 너무 불쾌함
@@ -127,7 +125,7 @@ namespace _16TeamTextRPG
 
             if (isCriticalDamage)
             {
-                finalDamage = (int)(BaseDamage + (BaseDamage * 1.6)); // 크리티컬이 발생하였을 때 적용되는 공식
+                finalDamage = (int)(BaseDamage + (BaseDamage * 0.6)); // 크리티컬이 발생하였을 때 적용되는 공식
             }
             else if (!isCriticalDamage)
             {

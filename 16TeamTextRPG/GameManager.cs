@@ -147,7 +147,7 @@ namespace _16TeamTextRPG
 
                 int input = CommonUtil.CheckInput(0, 6);
 
-                if (input == 0)
+                if (input == 0) // 저장 및 나가기
                 {
                     Free();
                     break;
@@ -156,22 +156,22 @@ namespace _16TeamTextRPG
                 switch (input)
                 {
                     case 1:
-                        StatusScreen();
+                        StatusScreen(); // 상태 보기
                         break;
                     case 2:
-                        inventory.InventoryScreen();
+                        inventory.InventoryScreen(); // 인벤토리
                         break;
                     case 3:
-                        shop.ShowMain();
+                        shop.ShowMain(); // 상점
                         break;
                     case 4:
-                        stage.BattleField();
+                        stage.BattleField(); // 전투시작
                         break;
                     case 5:
-                        guild.ShowMain();
+                        guild.ShowMain(); // 퀘스트 받기
                         break;
                     case 6:
-                        inventory.ConsumableScreen();
+                        inventory.ConsumableScreen(); // 회복아이템 사용
                         break;
                 }
             }
