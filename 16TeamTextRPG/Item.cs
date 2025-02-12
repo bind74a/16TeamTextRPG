@@ -171,7 +171,18 @@ namespace _16TeamTextRPG
             if (inven == null)
                 return;
 
+            for (int i = 0; i < potion.Length; i++)
+            {
+                potion[i] = inven.potion[i];
+            }
 
+            foreach (Item item in inven.list)
+            {
+                list.Add(item);
+            }
+
+            equipWeapon = inven.equipWeapon;
+            equipArmor = inven.equipArmor;
         }
 
         public static void WriteTyping(string str)
