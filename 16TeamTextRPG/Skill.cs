@@ -40,8 +40,8 @@ namespace _16TeamTexTRPG
             {
                 warriorSkill = new List<Skill>();
 
-                warriorSkill.Add(new Skill("파워 스트라이크", 2f, 10));//리스트 데이터를 플레이어에게 보내서 계산 아니면 스킬 클래스에서 계산
                 warriorSkill.Add(new Skill("슬래시 블러스트", 1.5f, 5));
+                warriorSkill.Add(new Skill("파워 스트라이크", 2f, 10));//리스트 데이터를 플레이어에게 보내서 계산 아니면 스킬 클래스에서 계산
             }
             public List<Skill> GetWarriorSkills()
             {
@@ -58,8 +58,8 @@ namespace _16TeamTexTRPG
             {
                 archerSkill = new List<Skill>();
 
-                archerSkill.Add(new Skill("애로우 블로우", 2.5f, 15));
                 archerSkill.Add(new Skill("더블 샷", 1.3f, 10));
+                archerSkill.Add(new Skill("애로우 블로우", 2.5f, 15));
             }
             public List<Skill> GetArcherSkills()
             {
@@ -91,8 +91,8 @@ namespace _16TeamTexTRPG
             {
                 wizardSkill = new List<Skill>();
 
-                wizardSkill.Add(new Skill("에너지 볼트", 2.5f, 20));
                 wizardSkill.Add(new Skill("매직 클로", 2.0f, 18));
+                wizardSkill.Add(new Skill("에너지 볼트", 2.5f, 20));
             }
             public List<Skill> GetWizardSkills()
             {
