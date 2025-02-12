@@ -31,10 +31,9 @@ namespace _16TeamTextRPG
             if (!File.Exists(filePath))
                 return null;
 
-            // Json 역직렬화
             string serialize = File.ReadAllText(filePath);
 
-            // 제네릭 클래스 반환
+            // Json 역직렬화
             return JsonConvert.DeserializeObject<T>(serialize);
         }
     }

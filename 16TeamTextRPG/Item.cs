@@ -178,11 +178,14 @@ namespace _16TeamTextRPG
 
             foreach (Item item in inven.list)
             {
-                list.Add(item);
-            }
+                this.list.Add(item);
 
-            equipWeapon = inven.equipWeapon;
-            equipArmor = inven.equipArmor;
+                if (item.IsEquip)
+                {
+                    if (item.Type == "weapon") { equipWeapon = item; }
+                    else { equipArmor = item; }
+                }
+            }
         }
 
         public static void WriteTyping(string str)
