@@ -265,9 +265,7 @@ namespace _16TeamTextRPG
             Console.WriteLine();
             Console.WriteLine("0. 취소");
             Console.WriteLine();
-            Console.Write("공격할 몬스터를 선택해주세요. : ");
 
-            string playerInput = Console.ReadLine();
             int monIndex = CommonUtil.CheckInput(0, attackMonster.Count);
 
             if (monIndex == 0) // 스킬 공격 취소
