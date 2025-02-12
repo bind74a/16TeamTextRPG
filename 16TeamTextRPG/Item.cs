@@ -352,13 +352,13 @@ namespace _16TeamTextRPG
 
            if (item.Type == "weapon")
             {
-                if (equipWeapon != null)
+                if (equipWeapon != null) // 이미 장착 중인 무기가 있을 경우
                 {
                     equipWeapon.IsEquip = false;
 
-                    if (equipWeapon.Equals(item))
+                    if (equipWeapon.Equals(item)) // 장착 중인 무기와 선택된 무기가 같을 경우
                     {
-                        equipWeapon = null;
+                        equipWeapon = null; // 장착 해제
                         return;
                     }
                 }

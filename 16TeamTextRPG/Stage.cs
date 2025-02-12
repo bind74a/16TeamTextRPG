@@ -91,24 +91,21 @@ namespace _16TeamTextRPG
                 Console.WriteLine();
 
                 Console.WriteLine("1. 공격");
-                Console.WriteLine("2. 스킬 공격\n");
+                Console.WriteLine("2. 스킬 공격");
+                Console.WriteLine("0. 도망가기\n");
 
-                Console.Write("원하시는 행동을 입력해주세요 : ");
-                if (int.TryParse(Console.ReadLine(), out int choice))
+                int choice = CommonUtil.CheckInput(0, 2);
+                if (choice == 0)
+                    break;
+
+                switch (choice)
                 {
-                    switch (choice)
-                    {
-                        case 1:
-                            playerAttackField(list);
-                            break;
-                            case 2:
-                            playerSkillAttackField(list);
-                            break;
-                        default:
-                            Console.WriteLine("잘못된 입력입니다.");
-                            continue;
-
-                    }
+                    case 1:
+                        playerAttackField(list); // 일반 공격
+                        break;
+                    case 2:
+                        playerSkillAttackField(list); // 스킬 공격
+                        break;
                 }
             }
         }
@@ -144,57 +141,39 @@ namespace _16TeamTextRPG
             Console.WriteLine("0. 취소");
             Console.WriteLine();
             //Console.Write("공격할 몬스터를 선택해주세요. : ");
-           
-            //bool allMonstersDead = attackMonster.All(monster => monster.dead);//모든 몬스터가 죽으면 true 아니면 false 을 반환
-            //if (allMonstersDead || player.hp == 0) //승리 조건 검사
-            //{
-            //    Console.Clear();
-            //    BattleResult(allMonstersDead, summon.Count);
-            //    break;
-            //}
 
-            while (true)
+            int monIndex = CommonUtil.CheckInput(0, attackMonster.Count);
+            if (monIndex == 0) // 공격 취소
+                return;
+
+            Monster selectedMonster = attackMonster[monIndex - 1];// 유저가 선택한 개채 변수에 저장
+            if (selectedMonster.dead)//개체가 죽었을시
             {
-                int monIndex = CommonUtil.CheckInput(0, attackMonster.Count);
+                Console.WriteLine("이미 죽은 몬스터입니다.");
+                Thread.Sleep(500);
+            }
+            else
+            {
+                // Player Turn
+                Console.Clear();
+                CommonUtil.WriteLine("Battle!! - Player Phase\n", ConsoleColor.DarkYellow);
 
-                if (monIndex == 0) // 취소
-                    break;
+                player.Attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
 
-                Monster selectedMonster = attackMonster[monIndex - 1];// 유저가 선택한 개채 변수에 저장
+                //다음 선택지 만들기
+                Console.WriteLine("0. 다음\n");
+                CommonUtil.CheckInput(0, 0);
 
-                if (selectedMonster.dead)//개체가 죽었을시
-                {
-                    Console.WriteLine("이미 죽은 몬스터입니다.");
-                    Thread.Sleep(500);
-                }
-                else
-                {
-                    Console.Clear();
-                    CommonUtil.WriteLine("Battle!! - Player Phase\n", ConsoleColor.DarkYellow);
+                if (selectedMonster.dead) // 방금 플레이어의 공격으로 몬스터가 죽었다면 종료
+                    return;
 
-                    player.Attack(selectedMonster);//플레이어 공격 메서드에게 선택한 개체정보 보내고 연산뒤 결과값 받기 (플레이어의 공격턴)
+                // Enemy Turn
+                Console.Clear();
+                CommonUtil.WriteLine("Battle!! - Enemy Phase\n", ConsoleColor.DarkYellow);
 
-                    //다음 선택지 만들기
-                    while (true)
-                    {
-                        Console.WriteLine("0. 다음\n");
-
-                        int input = CommonUtil.CheckInput(0, 0);
-                        if (input == 0)
-                        {
-                            Console.Clear();
-                            CommonUtil.WriteLine("Battle!! - Enemy Phase\n", ConsoleColor.DarkYellow);
-
-                            selectedMonster.Attack(player);//몬스터의 공격 메서드 (몬스터의 공격턴)
-                            Console.WriteLine("0. 다음\n");
-
-                            input = CommonUtil.CheckInput(0, 0);
-
-                            if (input == 0)
-                                return;
-                        }
-                    }
-                }
+                selectedMonster.Attack(player); // 몬스터의 공격 메서드 (몬스터의 공격턴)
+                Console.WriteLine("0. 다음\n");
+                CommonUtil.CheckInput(0, 0);
             }
         }
         //3.전투가 끝날시 남아있는 현재체력과 현재 스탯표시(결과창)
@@ -221,19 +200,13 @@ namespace _16TeamTextRPG
                 Console.WriteLine();
 
                 Console.WriteLine("0. 돌아가기\n");
-
-                //int next = int.Parse(Console.ReadLine());
-                int next = CommonUtil.CheckInput(0, 0);
-                //if (next == 0)
-                //{
-                //    Console.WriteLine("끝");
-                //}
+                CommonUtil.CheckInput(0, 0);
 
                 // 던전 층 상승
                 floor++;
             }
 
-            if (player.hp == 0) //플레이어의 현재체력이 0이 될시
+            if (player.hp <= 0) //플레이어의 현재체력이 0이 될시
             {
                 Console.WriteLine("You Lose");
                 Console.WriteLine();
@@ -242,12 +215,7 @@ namespace _16TeamTextRPG
                 Console.WriteLine();
 
                 Console.WriteLine("0. 돌아가기\n");
-
-                int next = CommonUtil.CheckInput(0, 0);
-                //if (next == 0)
-                //{
-                //    Console.WriteLine("끝");
-                //}
+                CommonUtil.CheckInput(0, 0);
             }
         }
 
@@ -298,14 +266,6 @@ namespace _16TeamTextRPG
             Console.WriteLine($"{choiceMonster}. 취소");
             Console.WriteLine();
             Console.Write("공격할 몬스터를 선택해주세요. : ");
-
-
-            bool allMonstersDead = attackMonster.All(monster => monster.dead);//모든 몬스터가 죽으면 true 아니면 false 을 반환
-            if (allMonstersDead || player.hp == 0) //승리 조건 검사
-            {
-                Console.Clear();
-                BattleResult(allMonstersDead, summon.Count);
-            }
 
             string playerInput = Console.ReadLine();
             if (int.TryParse(playerInput, out int monIndex) && monIndex > 0 && monIndex <= attackMonster.Count) //입력한숫자가 0이상 선택지

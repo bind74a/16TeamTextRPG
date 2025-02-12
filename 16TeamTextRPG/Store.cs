@@ -85,18 +85,18 @@ namespace _16TeamTextRPG
             else BuyItem(input, GameManager.Instance.player, GameManager.Instance.inventory);
         }
 
-        public void BuyItem(int index, Player status, Inventory inventory) // 아이템 구매
+        public void BuyItem(int index, Player player, Inventory inventory) // 아이템 구매
         {
             Item item = ItemForSale[index - 1];
             if (item.CanBuy == false)
             {
                 Console.WriteLine("\n이미 구매한 아이템입니다.");
             }
-            else if (status.gold >= item.Price)
+            else if (player.gold >= item.Price) // 아이템 가격보다 플레이어 골드가 많다면
             {
-                status.gold -= item.Price;
+                player.gold -= item.Price; // 플레이어의 골드 차감
 
-                if (item.Type == "consumable_hp") // 물약일때
+                if (item.Type == "consumable_hp") // 선택한 아이템 타입이 물약
                 {
                     inventory.potion[(int)Inventory.ePotionType.HP]++;
                 }
@@ -104,7 +104,7 @@ namespace _16TeamTextRPG
                 {
                     inventory.potion[(int)Inventory.ePotionType.MP]++;
                 }
-                else
+                else // 선택한 아이템 타입이 물약이 아닐 경우
                 {
                     inventory.list.Add(item);
                     item.CanBuy = false;
@@ -115,6 +115,9 @@ namespace _16TeamTextRPG
             {
                 Console.WriteLine("\nGold 가 부족합니다.");
             }
+
+            Thread.Sleep(500); // 0.5초간 상호작용 텍스트 대기
+
             BuyItemList();
         }
 
@@ -162,11 +165,22 @@ namespace _16TeamTextRPG
         public void SellItem(int index, Player player, Inventory inventory) // 아이템 판매
         {
             Item item = inventory.list[index - 1];
-            inventory.EquipItem(index, player);
-            inventory.list.RemoveAt(index - 1);
-            ItemForSale[index - 1].CanBuy = true;
+            //inventory.EquipItem(index, player);
+            //inventory.list.RemoveAt(index - 1);
+            //ItemForSale[index - 1].CanBuy = true;
+            
+            if (item.IsEquip) // 판매하려는 아이템이 장착중이라면
+            {
+                item.IsEquip = false;
+
+                if (item.Type == "weapon") { inventory.equipWeapon = null; }
+                else { inventory.equipArmor = null; }
+            }
+            inventory.list.Remove(item); // 인벤토리 리스트의 아이템 제거
             player.gold += (int)(item.Price * 0.85f);
             Console.WriteLine("판매를 완료했습니다.");
+
+            Thread.Sleep(500); // 0.5초간 상호작용 텍스트 대기
         }
     }
 }
