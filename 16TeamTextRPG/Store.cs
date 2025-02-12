@@ -146,9 +146,7 @@ namespace _16TeamTextRPG
             }
             else if (input <= GameManager.Instance.inventory.list.Count)
             {
-                Console.Clear();
                 SellItem(input, GameManager.Instance.player, GameManager.Instance.inventory);
-                ShowSellItem();
             }
         }
 
@@ -189,6 +187,8 @@ namespace _16TeamTextRPG
             Console.WriteLine("판매를 완료했습니다.");
 
             Thread.Sleep(500); // 0.5초간 상호작용 텍스트 대기
+
+            ShowSellItem();
         }
     }
 }
