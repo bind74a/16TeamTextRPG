@@ -98,7 +98,7 @@ namespace _16TeamTextRPG
             else
                 Console.WriteLine($"Lv.{level} {name}의 공격!"); // Lv.2 미니언의 공격!
             if ( isMissDamage)
-                Console.WriteLine($"{player.name}(이)가 회피에 성공하였습니다다.\n");
+                Console.WriteLine($"{player.name}(이)가 회피에 성공하였습니다.\n");
             else
                 Console.WriteLine($"{player.name}을(를) 맞췄습니다. [데미지: {finalDamage}]\n"); // Chad 을(를) 맞췄습니다. [데미지: 6]
 
