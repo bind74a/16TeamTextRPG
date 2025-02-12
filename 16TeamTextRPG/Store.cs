@@ -11,12 +11,20 @@ namespace _16TeamTextRPG
         
         public Shop()
         {
-            //player = GameManager.Instance.player;
+            player = GameManager.Instance.player;
             
             foreach( Item item in GameManager.Instance.itemList.all)
             {
                 ItemForSale.Add(item);
             }
+
+            // 포션 상점에만 추가
+            Stat stat = new Stat();
+            stat.Name = " 소형 HP 포션   "; stat.Option = " 체  력 +20 "; stat.Info = " 체력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Hp = 20; stat.Type = "consumable_hp";
+            ItemForSale.Add(new Item(ref stat));
+            stat.Name = " 소형 MP 포션   "; stat.Option = " 마  력 +20 "; stat.Info = " 마력을 회복 시켜주는 작은 포션입니다."; stat.Price = 500; stat.Mp = 20; stat.Type = "consumable_mp";
+            ItemForSale.Add(new Item(ref stat));
+
         }
 
         public void ShowMain()

@@ -166,7 +166,14 @@ namespace _16TeamTexTRPG
                 Console.WriteLine();
                 Console.WriteLine($"Lv.{monster.level} {monster.name}"); // Lv.1 Chad
                 Console.WriteLine($"HP {monster.maxHp} -> {monster.hp}"); // HP 100 -> 94
-            }       
+
+                // 몬스터 처치 시
+                if (monster.dead)
+                    player.GainExp(monster.exp);
+
+                Console.WriteLine();
+
+            }
         }
     }
 }
